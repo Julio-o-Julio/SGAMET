@@ -2,10 +2,13 @@ package controller;
 
 import java.time.LocalDateTime;
 
+import model.Funcionario;
+import model.Chamado;
+
 public class AgendamentoController {
 
     public Funcionario buscarFuncionario(int matricula) {
-        
+        return null;
     }
 
     public boolean consultaDisponibilidadeHorario(int nroMatricula) {
@@ -16,7 +19,7 @@ public class AgendamentoController {
         return true;
     }
 
-    public void registrarAgendamento(Chamado chamado, LocalDateTime horario, Funcionario funcionario, String nomeRes, String telefoneRes, ) {
+    public void registrarAgendamento(Chamado chamado, LocalDateTime horario, Funcionario funcionario, String nomeRes, String telefoneRes) {
 
     }
 }
