@@ -1,20 +1,16 @@
 package model;
 
 public class NotaChamado {
-    public int numNota;
-    public String descricao;
+    private int numNota;
+    private String descricao;
 
-    // Construtor da classe
-    /**
-     * @param numNota
-     * @param descricao
-     */
+    // Construtor da classegit s
     public NotaChamado(int numNota, String descricao) {
         this.numNota = numNota;
         this.descricao = descricao;
     }
 
-    // Métodos getters e setters para acessar e modificar os atributos
+    // Métodos getters e setters para acessar e modificar as propriedades
     public int getNumNota() {
         return numNota;
     }

@@ -1,28 +1,20 @@
 package model;
 
 public class Equipamento {
-    public String numSerie;
-    public String descricao;
-    public String marca;
-    public String modelo;
+    private String numSerie;
+    private String descricao;
+    private String marca;
+    private String modelo;
+    private Cliente cliente;
 
-    // Construtor da classe
-    public Equipamento(String numSerie, String descricao, String marca, String modelo) {
+    public Equipamento(String numSerie, String descricao, String marca, String modelo, Cliente cliente) {
         this.numSerie = numSerie;
         this.descricao = descricao;
         this.marca = marca;
         this.modelo = modelo;
+        this.cliente = cliente;
     }
 
-     // Construtor da classe
-    /**
-     * @param numSerie
-     * @param descricao
-     * @param marca
-     * @param modelo
-     */
-    
-    // Métodos getters e setters para acessar e modificar os atributos
     public String getNumSerie() {
         return numSerie;
     }
@@ -53,5 +45,13 @@ public class Equipamento {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
