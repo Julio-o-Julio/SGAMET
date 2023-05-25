@@ -1,11 +1,11 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Chamado;
-import Negocio.NotaChamado;
-import database.Conexao;
+import model.Chamado;
+import model.NotaChamado;
+
 
 public class NotaChamadoDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -20,8 +20,30 @@ public class NotaChamadoDAO {
 	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado)
 	); 
 	 */
+	
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists notachamado ("
+            		+ "		numNota INTEGER PRIMARY KEY,"
+            		+ "		numChamado INTEGER,"
+            		+ "	    descricao VARCHAR(255),"
+            		+ "	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
 
     public static int insert(NotaChamado notaChamado) throws SQLException {
+    	NotaChamadoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -51,7 +73,8 @@ public class NotaChamadoDAO {
 
 
     public static void update(NotaChamado notaChamado) throws SQLException {
-        Connection conexaoPadrao = new Conexao().getConexao();
+    	NotaChamadoDAO.checkTable();
+    	Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
                     "UPDATE notaChamado SET numNota = ?, numChamado = ?, descricao = ?" +
@@ -82,6 +105,7 @@ public class NotaChamadoDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<NotaChamado> selectAll() throws SQLException{
+    	NotaChamadoDAO.checkTable();
 		ArrayList<NotaChamado> arrayRes = new ArrayList<NotaChamado>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -108,6 +132,7 @@ public class NotaChamadoDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static NotaChamado searchQuery(int numNota) throws SQLException{
+		NotaChamadoDAO.checkTable();
 		NotaChamado res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -134,6 +159,7 @@ public class NotaChamadoDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(int numNota) throws SQLException {
+		NotaChamadoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

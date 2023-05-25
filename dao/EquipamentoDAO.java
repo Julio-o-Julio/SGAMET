@@ -1,11 +1,11 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Cliente;
-import Negocio.Equipamento;
-import database.Conexao;
+import model.Cliente;
+import model.Equipamento;
+
 
 public class EquipamentoDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -13,17 +13,41 @@ public class EquipamentoDAO {
 	/*
    	use sgamet;
 	
-	create table if not exists Equipamento (
-		numserie VARCHAR(255) PRIMARY KEY,
-		descricao VARCHAR(255),
-	    marca VARCHAR(255),
-	    modelo VARCHAR(255),
-	    cpfcnpjcli = VARCHAR(255),
-	    FOREIGN KEY (cpfcnpjcli) REFERENCES cliente(cpfcnpj)
-	); 
+create table if not exists Equipamento (
+	numserie VARCHAR(255) PRIMARY KEY,
+	descricao VARCHAR(255),
+    marca VARCHAR(255),
+    modelo VARCHAR(255),
+    cpfcnpjcli = VARCHAR(255),
+    FOREIGN KEY (cpfcnpjcli) REFERENCES cliente(cpfcnpj)
+); 
 	 */
 
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Equipamento ("
+            		+ "	numserie VARCHAR(255) PRIMARY KEY,"
+            		+ "	descricao VARCHAR(255),"
+            		+ " marca VARCHAR(255),"
+            		+ " modelo VARCHAR(255),"
+            		+ " cpfcnpjcli = VARCHAR(255),"
+            		+ " FOREIGN KEY (cpfcnpjcli) REFERENCES cliente(cpfcnpj))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
+	
     public static int insert(Equipamento Equipamento) throws SQLException {
+    	EquipamentoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -55,6 +79,7 @@ public class EquipamentoDAO {
 
 
     public static void update(Equipamento Equipamento) throws SQLException {
+    	EquipamentoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -88,6 +113,7 @@ public class EquipamentoDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Equipamento> selectAll() throws SQLException{
+    	EquipamentoDAO.checkTable();
 		ArrayList<Equipamento> arrayRes = new ArrayList<Equipamento>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -117,6 +143,7 @@ public class EquipamentoDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Equipamento searchQuery(String numserie) throws SQLException{
+		EquipamentoDAO.checkTable();
 		Equipamento res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -146,6 +173,7 @@ public class EquipamentoDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(String numSerie) throws SQLException {
+		EquipamentoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

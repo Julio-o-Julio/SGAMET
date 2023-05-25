@@ -1,10 +1,10 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Usuario;
-import database.Conexao;
+import model.Usuario;
+
 
 public class UsuarioDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -22,8 +22,28 @@ public class UsuarioDAO {
 	    senha VARCHAR(20)
 	); 
 	 */
-
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Usuario ("
+            		+ "		nomeusuario VARCHAR(255) PRIMARY KEY,"
+            		+ "		email VARCHAR(255),"
+            		+ "	    senha VARCHAR(20))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
+	
     public static int insert(Usuario usuario) throws SQLException {
+    	UsuarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -53,6 +73,7 @@ public class UsuarioDAO {
 
 
     public static void update(Usuario usuario) throws SQLException {
+    	UsuarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -84,6 +105,7 @@ public class UsuarioDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Usuario> selectAll() throws SQLException{
+    	UsuarioDAO.checkTable();
 		ArrayList<Usuario> arrayRes = new ArrayList<Usuario>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -109,6 +131,7 @@ public class UsuarioDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Usuario searchQuery(String nomeUsuario) throws SQLException{
+		UsuarioDAO.checkTable();
 		Usuario res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -134,6 +157,7 @@ public class UsuarioDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(String nomeUsuario) throws SQLException {
+		UsuarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

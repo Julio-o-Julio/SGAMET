@@ -1,10 +1,10 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Contato;
-import database.Conexao;
+import model.Contato;
+
 
 public class ContatoDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -12,15 +12,37 @@ public class ContatoDAO {
 	/*
    	use sgamet;
 	
-	create table if not exists Contato (
-		nome VARCHAR(255),
-	    email VARCHAR(255),
-	    telefone VARCHAR(255),
-	    primary key (nome, email, telefone)
-	); 
+create table if not exists Contato (
+	nome VARCHAR(255),
+    email VARCHAR(255),
+    telefone VARCHAR(255),
+    primary key (nome, email, telefone)
+); 
 	 */
+	
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Contato ("
+            		+ "	nome VARCHAR(255),"
+            		+ " email VARCHAR(255),"
+            		+ " telefone VARCHAR(255),"
+            		+ " primary key (nome, email, telefone))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
 
     public static int insert(Contato Contato) throws SQLException {
+    	ContatoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -50,6 +72,7 @@ public class ContatoDAO {
 
 
     public static void update(Contato Contato) throws SQLException {
+    	ContatoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -83,6 +106,7 @@ public class ContatoDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Contato> selectAll() throws SQLException{
+    	ContatoDAO.checkTable();
 		ArrayList<Contato> arrayRes = new ArrayList<Contato>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -108,6 +132,7 @@ public class ContatoDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Contato searchQuery(String nome, String email, String telefone) throws SQLException{
+		ContatoDAO.checkTable();
 		Contato res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -136,6 +161,7 @@ public class ContatoDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(String nome, String email, String telefone) throws SQLException {
+		ContatoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
