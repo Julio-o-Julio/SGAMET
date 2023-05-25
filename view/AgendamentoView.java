@@ -56,9 +56,9 @@ public class AgendamentoView extends JFrame{
         String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
         JTextField codChamadoField = new JTextField();
-        JTextField matriculaFuncionario = new JTextField();
+        JTextField matriculaFuncionarioField = new JTextField();
         restringirParaInteiro(codChamadoField);
-        restringirParaInteiro(matriculaFuncionario);
+        restringirParaInteiro(matriculaFuncionarioField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/## - ##h:##m", 'X'));
         JComboBox<String> situacao = new JComboBox<>(situacoes);
@@ -68,6 +68,7 @@ public class AgendamentoView extends JFrame{
         JButton btnCancelar = new JButton("Cancelar");
         AgendamentoViewCRUDactions actionListenerCrud = new AgendamentoViewCRUDactions(nomeField,
                 codChamadoField,
+                matriculaFuncionarioField,
                 telefoneField,
                 horarioField,
                 situacao,
@@ -82,7 +83,7 @@ public class AgendamentoView extends JFrame{
             }
         });
 
-        JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionario, defaultFieldDimension);
+        JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionarioField, defaultFieldDimension);
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
         JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
