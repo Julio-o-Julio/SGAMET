@@ -1,5 +1,7 @@
 package view;
 
+import view.actions.AgendamentoViewCRUDactions;
+
 import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -7,6 +9,8 @@ import javax.swing.text.MaskFormatter;
 
 import javax.swing.text.PlainDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class AgendamentoView extends JFrame{
@@ -60,6 +64,21 @@ public class AgendamentoView extends JFrame{
         JButton btnAgendar = new JButton("Agendar");
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnCancelar = new JButton("Cancelar");
+        AgendamentoViewCRUDactions actionListenerCrud = new AgendamentoViewCRUDactions(nomeField,
+                codChamadoField,
+                telefoneField,
+                horarioField,
+                situacao,
+                btnAgendar,
+                btnAtualizar);
+        btnAgendar.addActionListener(actionListenerCrud);
+        btnAtualizar.addActionListener(actionListenerCrud);
+        btnCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
         JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
