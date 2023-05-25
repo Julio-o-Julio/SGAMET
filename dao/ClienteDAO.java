@@ -226,7 +226,7 @@ create table if not exists Cliente (
 		return clientes;
 	}
 
-	public void inserirCliente(Cliente Cliente){
+	public static void inserirCliente(Cliente Cliente){
 		try {
 			if(ClienteDAO.searchQuery(Cliente.getCpfCnpj()) != null){
 				ClienteDAO.update(Cliente);

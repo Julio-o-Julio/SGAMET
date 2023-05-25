@@ -200,7 +200,7 @@ public class UsuarioDAO {
 		return filiais;
 	}
 
-	public void inserirUsuario(Usuario Usuario){
+	public static void inserirUsuario(Usuario Usuario){
 		try {
 			if(UsuarioDAO.searchQuery(Usuario.getNomeUsuario()) != null){
 				UsuarioDAO.update(Usuario);

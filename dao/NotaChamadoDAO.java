@@ -199,7 +199,7 @@ public class NotaChamadoDAO {
 		return notas;
 	}
 
-	public void inserirNtChamado(NotaChamado nota){
+	public static void inserirNtChamado(NotaChamado nota){
 		try {
 			if(NotaChamadoDAO.searchQuery(nota.getNumNota()) != null){
 				NotaChamadoDAO.update(nota);

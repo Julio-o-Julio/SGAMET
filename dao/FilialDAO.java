@@ -235,7 +235,7 @@ create table if not exists Filial (
 		return filiais;
 	}
 
-	public void inserirFilial(Filial filial){
+	public static void inserirFilial(Filial filial){
 		try {
 			if(FilialDAO.searchQuery(filial.getNumIdentificacao()) != null){
 				FilialDAO.update(filial);

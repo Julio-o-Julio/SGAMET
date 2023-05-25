@@ -239,7 +239,7 @@ create table if not exists AgendamentoVisita (
 		return agend;
 	}
 
-	public void inserirChamado(AgendamentoVisita agend){
+	public static void inserirChamado(AgendamentoVisita agend){
 		try {
 			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado()) != null){
 				AgendamentoVisitaDAO.update(agend);

@@ -175,7 +175,7 @@ public class ChamadoDAO {
 		return chamados;
 	}
 
-	public void inserirChamado(Chamado nota){
+	public static void inserirChamado(Chamado nota){
 		try {
 			if(ChamadoDAO.searchQuery(nota.getCodChamado()) != null){
 				ChamadoDAO.update(nota);

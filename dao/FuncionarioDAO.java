@@ -282,7 +282,7 @@ public class FuncionarioDAO {
 		return funcionarios;
 	}
 
-	public void inserirFuncionario(Funcionario funcionario){
+	public static void inserirFuncionario(Funcionario funcionario){
 		try {
 			if(FuncionarioDAO.searchQuery(funcionario.getNroMatricula()) != null){
 				FuncionarioDAO.update(funcionario);

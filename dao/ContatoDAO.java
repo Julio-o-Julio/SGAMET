@@ -205,7 +205,7 @@ create table if not exists Contato (
 		return contatos;
 	}
 
-	public void inserirContato(Contato Contato){
+	public static void inserirContato(Contato Contato){
 		try {
 			if(ContatoDAO.searchQuery(Contato.getNome()) != null){
 				ContatoDAO.update(Contato);

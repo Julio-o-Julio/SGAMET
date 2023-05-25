@@ -215,7 +215,7 @@ create table if not exists Equipamento (
 		return equipamentos;
 	}
 
-	public void inserirEquipamento(Equipamento equipamento){
+	public static void inserirEquipamento(Equipamento equipamento){
 		try {
 			if(EquipamentoDAO.searchQuery(equipamento.getNumSerie()) != null){
 				EquipamentoDAO.update(equipamento);
