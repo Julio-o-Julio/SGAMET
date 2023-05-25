@@ -1,13 +1,13 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import Negocio.AgendamentoVisita;
-import Negocio.Chamado;
-import Negocio.Funcionario;
-import database.Conexao;
+import model.AgendamentoVisita;
+import model.Chamado;
+import model.Funcionario;
+
 
 public class AgendamentoVisitaDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -23,18 +23,43 @@ public class AgendamentoVisitaDAO {
     private Chamado chamado;
     private Funcionario funcionario;
 	
-	create table if not exists AgendamentoVisita (
-		codChamado INTEGER,
-		nomere VARCHAR(255),
-	    telefonere VARCHAR(225),
-	    situacao VARCHAR(225),
-	    codfunc INTEGER,
-	    horaAgendamento TIMESTAMP,
-	    PRIMARY KEY (codchamado, horaagendamento)
-	); 
+create table if not exists AgendamentoVisita (
+	codChamado INTEGER,
+	nomere VARCHAR(255),
+    telefonere VARCHAR(225),
+    situacao VARCHAR(225),
+    codfunc INTEGER,
+    horaAgendamento TIMESTAMP,
+    PRIMARY KEY (codchamado, horaagendamento)
+); 
 	 */
+	
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists AgendamentoVisita ("
+            		+ "	codChamado INTEGER,"
+            		+ "	nomere VARCHAR(255),"
+            		+ " telefonere VARCHAR(225),"
+            		+ " situacao VARCHAR(225),"
+            		+ " codfunc INTEGER,"
+            		+ " horaAgendamento TIMESTAMP,"
+            		+ " PRIMARY KEY (codchamado, horaagendamento))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
 
     public static int insert(AgendamentoVisita agendamentoVisita) throws SQLException {
+    	AgendamentoVisitaDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -67,6 +92,7 @@ public class AgendamentoVisitaDAO {
 
 
     public static void update(AgendamentoVisita agendamentoVisita) throws SQLException {
+    	AgendamentoVisitaDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -103,6 +129,7 @@ public class AgendamentoVisitaDAO {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     public static ArrayList<AgendamentoVisita> selectAll() throws SQLException{
+    	AgendamentoVisitaDAO.checkTable();
 		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -133,6 +160,7 @@ public class AgendamentoVisitaDAO {
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static ArrayList<AgendamentoVisita> searchQuery(int codCh) throws SQLException{
+		AgendamentoVisitaDAO.checkTable();
 		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -161,6 +189,7 @@ public class AgendamentoVisitaDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(int codCh) throws SQLException {
+		AgendamentoVisitaDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
@@ -178,6 +207,10 @@ public class AgendamentoVisitaDAO {
 			}
 		}
 		return ret;
+	}
+
+	public static void main(String[] args) {
+		
 	}
 
 }

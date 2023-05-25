@@ -1,10 +1,10 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Cliente;
-import database.Conexao;
+import model.Cliente;
+
 
 public class ClienteDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -20,18 +20,43 @@ public class ClienteDAO {
         this.cidade = cidade;
         this.idiomaPreferencia = idiomaPreferencia;
 	
-	create table if not exists Cliente (
-		cpfcnpj VARCHAR(255) PRIMARY KEY,
-		companhia VARCHAR(255),
-	    cep VARCHAR(20),
-	    pais VARCHAR(20),
-	    estado VARCHAR(20),
-	    cidade VARCHAR(20),
-	    idioma VARCHAR(20)
-	); 
+create table if not exists Cliente (
+	cpfcnpj VARCHAR(255) PRIMARY KEY,
+	companhia VARCHAR(255),
+    cep VARCHAR(20),
+    pais VARCHAR(20),
+    estado VARCHAR(20),
+    cidade VARCHAR(20),
+    idioma VARCHAR(20)
+); 
 	 */
+	
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Cliente ("
+            		+ "	cpfcnpj VARCHAR(255) PRIMARY KEY,"
+            		+ "	companhia VARCHAR(255),"
+            		+ " cep VARCHAR(20),"
+            		+ " pais VARCHAR(20),"
+            		+ " estado VARCHAR(20),"
+            		+ " cidade VARCHAR(20),"
+            		+ " idioma VARCHAR(20))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
 
     public static int insert(Cliente cliente) throws SQLException {
+    	ClienteDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -65,6 +90,7 @@ public class ClienteDAO {
 
 
     public static void update(Cliente cliente) throws SQLException {
+    	ClienteDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -100,6 +126,7 @@ public class ClienteDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Cliente> selectAll() throws SQLException{
+    	ClienteDAO.checkTable();
 		ArrayList<Cliente> arrayRes = new ArrayList<Cliente>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -129,6 +156,7 @@ public class ClienteDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Cliente searchQuery(String cpfcnpj) throws SQLException{
+		ClienteDAO.checkTable();
 		Cliente res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -158,6 +186,7 @@ public class ClienteDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(String cpfCnpj) throws SQLException {
+		ClienteDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

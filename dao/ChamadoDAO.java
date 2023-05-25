@@ -1,10 +1,10 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Chamado;
-import database.Conexao;
+import model.Chamado;
+
 
 public class ChamadoDAO {
     //TODO: Lidar com erros de forma mais apropriada

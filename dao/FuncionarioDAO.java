@@ -1,11 +1,11 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import Negocio.Funcionario;
-import database.Conexao;
+import model.Funcionario;
+
 
 public class FuncionarioDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -37,8 +37,27 @@ public class FuncionarioDAO {
 	
 	2018-09-01 09:01:15
 	 */
-
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Funcionario ("
+            		+ "	nroMatricula INTEGER, nome VARCHAR(255), cargo VARCHAR(255), pais VARCHAR(255), estado VARCHAR(255), cidade VARCHAR(255), telefone VARCHAR(255), horaAgendamento TIMESTAMP, PRIMARY KEY (nroMatricula, horaAgendamento))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
+	
+	
     public static int insert(Funcionario funcionario) throws SQLException {
+    	FuncionarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -92,6 +111,7 @@ public class FuncionarioDAO {
 
 
     public static void update(Funcionario funcionario) throws SQLException {
+    	FuncionarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -127,6 +147,7 @@ public class FuncionarioDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Funcionario> selectAll() throws SQLException{
+    	FuncionarioDAO.checkTable();
 		ArrayList<Funcionario> arrayRes = new ArrayList<Funcionario>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -155,6 +176,7 @@ public class FuncionarioDAO {
 	}
 
     private static ArrayList<LocalDateTime> arrayDeHorarios(int nroMatricula) throws SQLException{
+    	FuncionarioDAO.checkTable();
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -180,6 +202,7 @@ public class FuncionarioDAO {
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Funcionario searchQuery(int nroMatricula) throws SQLException{
+		FuncionarioDAO.checkTable();
 		Funcionario res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -212,6 +235,7 @@ public class FuncionarioDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(int nroMatricula) throws SQLException {
+		FuncionarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

@@ -1,10 +1,10 @@
-package SgametDAOS;
+package dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Negocio.Filial;
-import database.Conexao;
+import model.Filial;
+
 
 public class FilialDAO {
     //TODO: Lidar com erros de forma mais apropriada
@@ -21,19 +21,45 @@ public class FilialDAO {
     private String estado;
     private String pais;
 	
-	create table if not exists Filial (
-		numIdentificacao INTEGER PRIMARY KEY,
-		nroTecnicos INTEGER,
-		nome VARCHAR(255),
-	    endereco VARCHAR(255),
-	    cidade VARCHAR(255),
-	    cep VARCHAR(255),
-	    estado VARCHAR(255),
-	    pais VARCHAR(255)
-	); 
+create table if not exists Filial (
+	numIdentificacao INTEGER PRIMARY KEY,
+	nroTecnicos INTEGER,
+	nome VARCHAR(255),
+    endereco VARCHAR(255),
+    cidade VARCHAR(255),
+    cep VARCHAR(255),
+    estado VARCHAR(255),
+    pais VARCHAR(255)
+); 
 	 */
+	
+	private static void checkTable() {
+		try {
+			Connection conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Filial ("
+            		+ "	numIdentificacao INTEGER PRIMARY KEY,"
+            		+ "	nroTecnicos INTEGER,"
+            		+ "	nome VARCHAR(255),"
+            		+ " endereco VARCHAR(255),"
+            		+ " cidade VARCHAR(255),"
+            		+ " cep VARCHAR(255),"
+            		+ " estado VARCHAR(255),"
+            		+ " pais VARCHAR(255))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            System.out.println("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+	}
 
     public static int insert(Filial filial) throws SQLException {
+    	FilialDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -68,6 +94,7 @@ public class FilialDAO {
 
 
     public static void update(Filial filial) throws SQLException {
+    	FilialDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -104,6 +131,7 @@ public class FilialDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Filial> selectAll() throws SQLException{
+    	FilialDAO.checkTable();
 		ArrayList<Filial> arrayRes = new ArrayList<Filial>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -134,6 +162,7 @@ public class FilialDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Filial searchQuery(int numIdentificacao) throws SQLException{
+		FilialDAO.checkTable();
 		Filial res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -164,6 +193,7 @@ public class FilialDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	public static boolean delete(int numIdentificacao) throws SQLException {
+		FilialDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
