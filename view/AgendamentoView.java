@@ -55,7 +55,8 @@ public class AgendamentoView extends JFrame{
 
         String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
-        JTextField codChamadoField = new JFormattedTextField();
+        JTextField codChamadoField = new JTextField();
+        JTextField matriculaFuncionario = new JTextField();
         restringirParaInteiro(codChamadoField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/## - ##h:##m", 'X'));
