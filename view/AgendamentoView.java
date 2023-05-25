@@ -1,10 +1,26 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.MaskFormatter;
+
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 
+
 public class AgendamentoView extends JFrame{
+    public static void restringirParaInteiro(JTextField textField) {
+        textField.setDocument(new PlainDocument() {
+            @Override
+            public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+                if (str != null) {
+                    if(str.matches("[\\d]"))
+                        super.insertString(offset, str, attr);
+                }
+            }
+        });
+    }
 
     private MaskFormatter criarMascara(String formato, char placeholder){
         MaskFormatter mascara = new MaskFormatter();
@@ -35,6 +51,8 @@ public class AgendamentoView extends JFrame{
 
         String[] situacoes = {"Pendente", "Encerrado"};
         JTextField nomeField = new JTextField();
+        JTextField codChamadoField = new JFormattedTextField();
+        restringirParaInteiro(codChamadoField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/## - ##h:##m", 'X'));
         JComboBox<String> situacao = new JComboBox<>(situacoes);
@@ -43,6 +61,7 @@ public class AgendamentoView extends JFrame{
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnCancelar = new JButton("Cancelar");
 
+        JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
         JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
         JPanel telefonePanel = criarItemPanel("Telefone receptor:", telefoneField, defaultFieldDimension);
@@ -52,6 +71,7 @@ public class AgendamentoView extends JFrame{
         JPanel btnsPanel = new JPanel();
         GridLayout layoutBtnPane = new GridLayout(1, 3);
         layoutBtnPane.setHgap(5);
+
         btnsPanel.setLayout(layoutBtnPane);
         btnsPanel.add(btnAgendar);
         btnsPanel.add(btnAtualizar);
@@ -62,6 +82,7 @@ public class AgendamentoView extends JFrame{
         this.setResizable(false);
         this.setSize(tamanho);
 
+        contentPanel.add(codChamadoPanel);
         contentPanel.add(horarioPanel);
         contentPanel.add(nomePanel);
         contentPanel.add(telefonePanel);
