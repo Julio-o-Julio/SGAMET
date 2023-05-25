@@ -3,10 +3,10 @@ import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class AgendamentoViewCodChamadoActions implements FocusListener {
+public class AgendamentoCodChamadoActions implements FocusListener {
         private final JTextField codChamadoField;
 
-        public AgendamentoViewCodChamadoActions(JTextField codChamadoField) {
+        public AgendamentoCodChamadoActions(JTextField codChamadoField) {
             this.codChamadoField = codChamadoField;
         }
 

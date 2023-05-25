@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 
 
 public class AgendamentoView extends JFrame{
-    public static void restringirParaInteiro(JTextField textField) {
+    private static void restringirParaInteiro(JTextField textField) {
         textField.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
@@ -36,7 +36,7 @@ public class AgendamentoView extends JFrame{
         }
         return mascara;
     }
-    public static JPanel criarItemPanel(String title, JComponent child, Dimension tam) {
+    private static JPanel criarItemPanel(String title, JComponent child, Dimension tam) {
 
         JPanel formItemPanel = new JPanel();
         GridLayout gl = new GridLayout(0, 2);
