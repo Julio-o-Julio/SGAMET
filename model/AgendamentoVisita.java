@@ -11,19 +11,22 @@ public class AgendamentoVisita {
     private Chamado chamado;
     private Funcionario funcionario;
 
-    public AgendamentoVisita(LocalDateTime horario, String nomeReceptor, String telefoneReceptor, String situacao, Chamado chamado) {
+    public AgendamentoVisita(LocalDateTime horario, String nomeReceptor, String telefoneReceptor, String situacao, Chamado chamado, Funcionario funcionario) {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
         this.situacao = situacao;
         this.chamado = chamado;
+        this.funcionario = funcionario;
     }
 
-    public AgendamentoVisita(LocalDateTime horario, String nomeReceptor, String telefoneReceptor) {
+    public AgendamentoVisita(LocalDateTime horario, String nomeReceptor, String telefoneReceptor, Chamado chamado, Funcionario funcionario) {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
         this.situacao = "Atendido";
+        this.funcionario = funcionario;
+        this.chamado = chamado;
     }
 
     public LocalDateTime getHorario() {
