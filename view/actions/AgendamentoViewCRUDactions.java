@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class AgendamentoViewCRUDactions implements ActionListener {
     JTextField nomeField;
     JTextField codChamadoField;
+    JTextField matriculaFuncionarioField;
     JFormattedTextField telefoneField;
     JFormattedTextField horarioField;
     JComboBox<String> situacao;
@@ -16,6 +17,7 @@ public class AgendamentoViewCRUDactions implements ActionListener {
     public AgendamentoViewCRUDactions(
             JTextField nomeField,
             JTextField codChamadoField,
+            JTextField matriculaFuncionarioField,
             JFormattedTextField telefoneField,
             JFormattedTextField horarioField,
             JComboBox<String> situacao,
@@ -24,6 +26,7 @@ public class AgendamentoViewCRUDactions implements ActionListener {
     ) {
         this.nomeField = nomeField;
         this.codChamadoField = codChamadoField;
+        this.matriculaFuncionarioField = matriculaFuncionarioField;
         this.telefoneField = telefoneField;
         this.horarioField = horarioField;
         this.situacao = situacao;
