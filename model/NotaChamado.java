@@ -1,16 +1,28 @@
 package model;
 
 public class NotaChamado {
+    private Chamado chamado;
     private int numNota;
     private String descricao;
 
-    // Construtor da classegit s
-    public NotaChamado(int numNota, String descricao) {
+    public NotaChamado(Chamado chamado, int numNota, String descricao) {
+        this.chamado = chamado;
         this.numNota = numNota;
         this.descricao = descricao;
     }
 
-    // Métodos getters e setters para acessar e modificar as propriedades
+    public Chamado getChamado() {
+        return chamado;
+    }
+
+    public int getNumChamado() {
+        return chamado.getCodChamado();
+    }
+
+    public void setChamado(Chamado chamado) {
+        this.chamado = chamado;
+    }
+
     public int getNumNota() {
         return numNota;
     }

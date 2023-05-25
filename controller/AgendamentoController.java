@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 import dao.FuncionarioDAO;
 import dao.ChamadoDAO;
 import model.Funcionario;
+import model.AgendamentoVisita;
 import model.Chamado;
 
 public class AgendamentoController {
 
     Funcionario funcionario;
+    Chamado chamado;
 
     public Funcionario buscarFuncionario(int matricula) {
         return pesquisarFuncionario(matricula);
@@ -33,7 +35,7 @@ public class AgendamentoController {
 
     public boolean buscarChamado(int codChamado) {
 
-        for (Chamado chamado : chamados) {
+        if (ChamadoDAO.pesquisarChamado(codChamado)) {
             return true;
         }
 
@@ -41,6 +43,6 @@ public class AgendamentoController {
     }
 
     public void registrarAgendamento(Chamado chamado, LocalDateTime horario, Funcionario funcionario, String nomeRes, String telefoneRes) {
-
+        AgendamentoVisita agendamento = new AgendamentoVisita(horario, nomeRes, telefoneRes);
     }
 }
