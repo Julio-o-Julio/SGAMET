@@ -9,36 +9,44 @@ import java.text.SimpleDateFormat;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-public class HorarioValidador extends Validador<JFormattedTextField, LocalDateTime>{
-    private boolean dataEhValida(String data){
+public class HorarioValidador{
+    private static boolean dataEhValida(String data){
+        data = data.replaceAll("[^\\d]","");
         try{
-            new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            new SimpleDateFormat("dd/MM/yyyy").parse(data.trim());
             return true;
         }catch (ParseException err){
             return false;
         }
     }
-    public static boolean horaEhValida(String hora) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
+    private static boolean horaEhValida(String hora) {
+        hora = hora.replaceAll("[^\\d]","");
         try {
-            formatter.parse(hora);
+            DateTimeFormatter.ofPattern("HH:mm").parse(hora.trim());
             return true;
         } catch (DateTimeParseException e) {
             return false;
         }
     }
-    @Override
-    public boolean ehValido(JFormattedTextField horarioField) {
+    public static boolean ehValido(JFormattedTextField horarioField) {
         String horarioText = horarioField.getText();
         if(horarioText.length() < ((MaskFormatter)horarioField.getFormatter()).getMask().length()) return false;
+
         String[] horario = horarioText.split("-");
         if(horario.length < 2) return false;
+
         return  dataEhValida(horario[0]) && horaEhValida(horario[1]);
     }
-    @Override
-    public LocalDateTime getValor() {
-        return null;
+    public static LocalDateTime getValor(JFormattedTextField horarioField) {
+        try {
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern(
+                    ((MaskFormatter) horarioField.getFormatter()).getMask()
+            );
+            return LocalDateTime.parse(horarioField.getText(), formatador);
+        }catch (Exception err){
+            err.printStackTrace();
+            return null;
+        }
     }
 
 }
