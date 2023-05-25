@@ -132,15 +132,13 @@ create table if not exists Contato (
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static Contato searchQuery(String nome, String email, String telefone) throws SQLException{
+	public static Contato searchQuery(String nome) throws SQLException{
 		ContatoDAO.checkTable();
 		Contato res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Contato WHERE nome = ? and email = ? and telefone = ?");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Contato WHERE nome = ?");
 			prepSt.setString(1, nome);
-			prepSt.setString(2, email);
-			prepSt.setString(3, telefone);
             
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {
@@ -188,10 +186,10 @@ create table if not exists Contato (
 
 
 
-	public static Contato pesquisarContato(String nome, String telefone, String email){
+	public static Contato pesquisarContato(String nome){
 		Contato contato = null;
 		try {
-			contato = ContatoDAO.searchQuery(nome, telefone, email);
+			contato = ContatoDAO.searchQuery(nome);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -209,7 +207,7 @@ create table if not exists Contato (
 
 	public void inserirContato(Contato Contato){
 		try {
-			if(ContatoDAO.searchQuery(Contato.getNome(), Contato.getTelefone(), Contato.getEmail()) != null){
+			if(ContatoDAO.searchQuery(Contato.getNome()) != null){
 				ContatoDAO.update(Contato);
 			} else {
 				ContatoDAO.insert(Contato);
