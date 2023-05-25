@@ -143,7 +143,7 @@ create table if not exists AgendamentoVisita (
                 		tuplasRes.getString("nomere"), 
                 		tuplasRes.getString("telefonere"), 
                 		tuplasRes.getString("situacao"),
-						ch
+						ch, func
                 		));
 			}
 		} catch (SQLException e) {
@@ -176,7 +176,7 @@ create table if not exists AgendamentoVisita (
                 		tuplasRes.getString("nomere"), 
                 		tuplasRes.getString("telefonere"), 
                 		tuplasRes.getString("situacao"),
-						ch
+						ch, func
                 		));
 			}
 		} catch (SQLException e) {
