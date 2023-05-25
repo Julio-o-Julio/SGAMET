@@ -1,5 +1,6 @@
 package model;
 
+import model.Cliente;
 public class Equipamento {
     private String numSerie;
     private String descricao;
