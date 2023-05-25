@@ -22,6 +22,7 @@ public class AgendamentoVisita {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
+        this.situacao = "Atendido";
     }
 
     public LocalDateTime getHorario() {
