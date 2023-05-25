@@ -154,14 +154,17 @@ public class FuncionarioDAO {
 		try {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Funcionario");
 			ResultSet tuplasRes = prepSt.executeQuery(); 
+			
 			while (tuplasRes.next()) {
-                arrayRes.add(new Funcionario(	tuplasRes.getInt("nromatricula"),
-						                		tuplasRes.getString("nome"),
-						                		tuplasRes.getString("cargo"),
-						                		tuplasRes.getString("pais"),
-						                		tuplasRes.getString("estado"),
-						                		tuplasRes.getString("cidade"),
-						                		tuplasRes.getString("telefone")));
+				int nroMatricula = tuplasRes.getInt("nromatricula");
+				ArrayList<LocalDateTime> arrayDeHorarios = FuncionarioDAO.arrayDeHorarios(nroMatricula);
+                arrayRes.add(new Funcionario(	nroMatricula,
+                		tuplasRes.getString("nome"),
+                		tuplasRes.getString("cargo"),
+                		tuplasRes.getString("pais"),
+                		tuplasRes.getString("estado"),
+                		tuplasRes.getString("cidade"),
+                		tuplasRes.getString("telefone"), arrayDeHorarios));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());

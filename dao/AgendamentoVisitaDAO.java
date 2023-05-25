@@ -35,8 +35,9 @@ create table if not exists AgendamentoVisita (
 	 */
 	
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists AgendamentoVisita ("
             		+ "	codChamado INTEGER,"
             		+ "	nomere VARCHAR(255),"
@@ -141,7 +142,8 @@ create table if not exists AgendamentoVisita (
                 arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
                 		tuplasRes.getString("nomere"), 
                 		tuplasRes.getString("telefonere"), 
-                		tuplasRes.getString("situacao")
+                		tuplasRes.getString("situacao"),
+						ch
                 		));
 			}
 		} catch (SQLException e) {
@@ -168,10 +170,13 @@ create table if not exists AgendamentoVisita (
 			prepSt.setInt(1, codCh);
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {
+				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
+				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
 				arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
                 		tuplasRes.getString("nomere"), 
                 		tuplasRes.getString("telefonere"), 
-                		tuplasRes.getString("situacao")
+                		tuplasRes.getString("situacao"),
+						ch
                 		));
 			}
 		} catch (SQLException e) {
