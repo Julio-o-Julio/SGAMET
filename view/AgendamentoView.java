@@ -119,7 +119,7 @@ public class AgendamentoView extends JFrame{
     }
     public static void main(String[] args) {
 
-        new AgendamentoView("AAA", new Dimension(500,500));
+        new AgendamentoView("SGAMET", new Dimension(500,500));
 
     }
 }
