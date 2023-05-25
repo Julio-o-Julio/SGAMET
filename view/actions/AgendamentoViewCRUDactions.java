@@ -3,7 +3,7 @@ package view.actions;
 
 import javax.swing.*;
 
-import controladora.*;
+import controladora.AgendamentoController;
 import model.Chamado;
 import model.Funcionario;
 import view.validation.HorarioValidador;
