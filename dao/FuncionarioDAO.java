@@ -38,8 +38,9 @@ public class FuncionarioDAO {
 	2018-09-01 09:01:15
 	 */
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Funcionario ("
             		+ "	nroMatricula INTEGER, nome VARCHAR(255), cargo VARCHAR(255), pais VARCHAR(255), estado VARCHAR(255), cidade VARCHAR(255), telefone VARCHAR(255), horaAgendamento TIMESTAMP, PRIMARY KEY (nroMatricula, horaAgendamento))");
             statementInsercao.execute();

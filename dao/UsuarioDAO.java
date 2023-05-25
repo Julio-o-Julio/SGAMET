@@ -23,8 +23,9 @@ public class UsuarioDAO {
 	); 
 	 */
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Usuario ("
             		+ "		nomeusuario VARCHAR(255) PRIMARY KEY,"
             		+ "		email VARCHAR(255),"

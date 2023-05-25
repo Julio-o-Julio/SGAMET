@@ -32,8 +32,9 @@ create table if not exists Cliente (
 	 */
 	
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Cliente ("
             		+ "	cpfcnpj VARCHAR(255) PRIMARY KEY,"
             		+ "	companhia VARCHAR(255),"

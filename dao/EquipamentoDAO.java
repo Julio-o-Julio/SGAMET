@@ -24,8 +24,9 @@ create table if not exists Equipamento (
 	 */
 
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Equipamento ("
             		+ "	numserie VARCHAR(255) PRIMARY KEY,"
             		+ "	descricao VARCHAR(255),"

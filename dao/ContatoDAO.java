@@ -21,8 +21,9 @@ create table if not exists Contato (
 	 */
 	
 	private static void checkTable() {
+		Connection conexaoPadrao = null;
 		try {
-			Connection conexaoPadrao = new Conexao().getConexao();
+			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Contato ("
             		+ "	nome VARCHAR(255),"
             		+ " email VARCHAR(255),"
