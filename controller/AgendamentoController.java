@@ -43,6 +43,6 @@
 //    }
 //
 //    public void registrarAgendamento(Chamado chamado, LocalDateTime horario, Funcionario funcionario, String nomeRes, String telefoneRes) {
-//        AgendamentoVisita agendamento = new AgendamentoVisita(horario, nomeRes, telefoneRes);
+//        AgendamentoVisita agendamento = new AgendamentoVisita(chamado.getCodChamado(), funcionario.getNroMatricula(), horario, nomeRes, telefoneRes);
 //    }
 //}

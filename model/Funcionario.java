@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Funcionario {
+class Funcionario {
     private int nroMatricula;
     private String nome;
     private String cargo;
@@ -14,7 +14,7 @@ public class Funcionario {
     public ArrayList horAgendados;
 
   public Funcionario(int nroMatricula, String nome, String cargo, String pais, String estado, String cidade,
-      String telefone) {
+      String telefone, ArrayList<LocalDateTime> horAgendados) {
     this.nroMatricula = nroMatricula;
     this.nome = nome;
     this.cargo = cargo;
@@ -90,7 +90,7 @@ public class Funcionario {
   }
 
   public void adicionarHorarioAgendado(LocalDateTime horario) {
-    horAgendados.add(horario);
+        horAgendados.add(horario);
   }
 
   public void removerHorarioAgendado(LocalDateTime horario) {

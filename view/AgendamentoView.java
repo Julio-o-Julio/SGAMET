@@ -53,7 +53,7 @@ public class AgendamentoView extends JFrame{
         Dimension defaultFieldDimension = new Dimension(400, 40);
         Dimension halfFieldDimension = new Dimension(200, 40);
 
-        String[] situacoes = {"Pendente", "Encerrado"};
+        String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
         JTextField codChamadoField = new JFormattedTextField();
         restringirParaInteiro(codChamadoField);
