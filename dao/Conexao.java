@@ -7,7 +7,7 @@ public class Conexao {
 	private String url;
 	private String user;
 	private String password;
-	private String args = "?useTimezone=true&serverTimezone=UTC";
+	//private String args = "?useTimezone=true&serverTimezone=UTC";
 
 	private Conexao(String url, String user, String password) {
 		//this.database = database;
@@ -20,11 +20,10 @@ public class Conexao {
 		this("jdbc:mysql://localhost:3306/", "root", "123456789");
 		this.checkDb();
 		this.setDb();
-		this.url = this.url + this.args;
 	}
 
 	public Connection getConexao() throws SQLException {
-        Connection conexao =  DriverManager.getConnection(this.url, this.user, this.password);
+        Connection conexao =  DriverManager.getConnection(this.url+"?useTimezone=true&serverTimezone=UTC", this.user, this.password);
 		return conexao;
 	}
 	
