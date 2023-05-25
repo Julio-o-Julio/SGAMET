@@ -178,4 +178,38 @@ public class UsuarioDAO {
 		return ret;
 	}
 
+
+
+
+	public static Usuario pesquisarUsuario(String nomeUsuario){
+		Usuario Usuario = null;
+		try {
+			Usuario = UsuarioDAO.searchQuery(nomeUsuario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Usuario;
+	}
+	public static ArrayList<Usuario> pesquisarUsuario(){
+		ArrayList<Usuario> filiais = null;
+		try {
+			filiais = UsuarioDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return filiais;
+	}
+
+	public void inserirUsuario(Usuario Usuario){
+		try {
+			if(UsuarioDAO.searchQuery(Usuario.getNomeUsuario()) != null){
+				UsuarioDAO.update(Usuario);
+			} else {
+				UsuarioDAO.insert(Usuario);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 }

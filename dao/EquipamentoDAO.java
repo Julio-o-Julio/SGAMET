@@ -194,4 +194,38 @@ create table if not exists Equipamento (
 		return ret;
 	}
 
+
+
+	public static Equipamento pesquisarEquipamento(String numSerie){
+		Equipamento equipamento = null;
+		try {
+			equipamento = EquipamentoDAO.searchQuery(numSerie);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return equipamento;
+	}
+	public static ArrayList<Equipamento> pesquisarEquipamento(){
+		ArrayList<Equipamento> equipamentos = null;
+		try {
+			equipamentos = EquipamentoDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return equipamentos;
+	}
+
+	public void inserirEquipamento(Equipamento equipamento){
+		try {
+			if(EquipamentoDAO.searchQuery(equipamento.getNumSerie()) != null){
+				EquipamentoDAO.update(equipamento);
+			} else {
+				EquipamentoDAO.insert(equipamento);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+
 }

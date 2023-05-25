@@ -214,4 +214,37 @@ create table if not exists Filial (
 		return ret;
 	}
 
+
+
+	public static Filial pesquisarFilial(int numIdentificacao){
+		Filial filial = null;
+		try {
+			filial = FilialDAO.searchQuery(numIdentificacao);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return filial;
+	}
+	public static ArrayList<Filial> pesquisarFilial(){
+		ArrayList<Filial> filiais = null;
+		try {
+			filiais = FilialDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return filiais;
+	}
+
+	public void inserirFilial(Filial filial){
+		try {
+			if(FilialDAO.searchQuery(filial.getNumIdentificacao()) != null){
+				FilialDAO.update(filial);
+			} else {
+				FilialDAO.insert(filial);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 }

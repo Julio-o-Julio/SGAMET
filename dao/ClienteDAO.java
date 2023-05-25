@@ -207,4 +207,37 @@ create table if not exists Cliente (
 		return ret;
 	}
 
+	public static Cliente pesquisarCliente(String cpf){
+		Cliente cliente = null;
+		try {
+			cliente = ClienteDAO.searchQuery(cpf);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cliente;
+	}
+	public static ArrayList<Cliente> pesquisarCliente(){
+		ArrayList<Cliente> clientes = null;
+		try {
+			clientes = ClienteDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return clientes;
+	}
+
+	public void inserirCliente(Cliente Cliente){
+		try {
+			if(ClienteDAO.searchQuery(Cliente.getCpfCnpj()) != null){
+				ClienteDAO.update(Cliente);
+			} else {
+				ClienteDAO.insert(Cliente);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+
+
 }

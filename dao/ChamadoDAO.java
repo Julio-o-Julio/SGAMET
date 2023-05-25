@@ -154,4 +154,38 @@ public class ChamadoDAO {
 		return ret;
 	}
 
+
+
+	public static Chamado pesquisarChamado(int cod){
+		Chamado chamado = null;
+		try {
+			chamado = ChamadoDAO.searchQuery(cod);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return chamado;
+	}
+	public static ArrayList<Chamado> pesquisarChamado(){
+		ArrayList<Chamado> chamados = null;
+		try {
+			chamados = ChamadoDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return chamados;
+	}
+
+	public void inserirChamado(Chamado nota){
+		try {
+			if(ChamadoDAO.searchQuery(nota.getCodChamado()) != null){
+				ChamadoDAO.update(nota);
+			} else {
+				ChamadoDAO.insert(nota);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+
 }

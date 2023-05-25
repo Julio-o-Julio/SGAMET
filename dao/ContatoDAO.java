@@ -185,4 +185,38 @@ create table if not exists Contato (
 		return ret;
 	}
 
+
+
+
+	public static Contato pesquisarContato(String nome, String telefone, String email){
+		Contato contato = null;
+		try {
+			contato = ContatoDAO.searchQuery(nome, telefone, email);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contato;
+	}
+	public static ArrayList<Contato> pesquisarContato(){
+		ArrayList<Contato> contatos = null;
+		try {
+			contatos = ContatoDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contatos;
+	}
+
+	public void inserirContato(Contato Contato){
+		try {
+			if(ContatoDAO.searchQuery(Contato.getNome(), Contato.getTelefone(), Contato.getEmail()) != null){
+				ContatoDAO.update(Contato);
+			} else {
+				ContatoDAO.insert(Contato);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 }

@@ -259,4 +259,39 @@ public class FuncionarioDAO {
 		return ret;
 	}
 
+
+
+	
+	
+	public static Funcionario pesquisarFuncionario(int nroMatricula){
+		Funcionario Funcionario = null;
+		try {
+			Funcionario = FuncionarioDAO.searchQuery(nroMatricula);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return Funcionario;
+	}
+	public static ArrayList<Funcionario> pesquisarFuncionario(){
+		ArrayList<Funcionario> funcionarios = null;
+		try {
+			funcionarios = FuncionarioDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return funcionarios;
+	}
+
+	public void inserirFuncionario(Funcionario funcionario){
+		try {
+			if(FuncionarioDAO.searchQuery(funcionario.getNroMatricula()) != null){
+				FuncionarioDAO.update(funcionario);
+			} else {
+				FuncionarioDAO.insert(funcionario);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 }

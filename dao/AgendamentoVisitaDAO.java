@@ -214,8 +214,42 @@ create table if not exists AgendamentoVisita (
 		return ret;
 	}
 
-	public static void main(String[] args) {
-		
+	public static ArrayList<AgendamentoVisita> pesquisarAgtVisita(int numChamado){
+		ArrayList<AgendamentoVisita> agend = null;
+		try {
+			agend = AgendamentoVisitaDAO.searchQuery(numChamado);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return agend;
 	}
+	public static AgendamentoVisita pesquisarAgtVisita(int numChamado, LocalDateTime hora){
+		ArrayList<AgendamentoVisita> agendLista;
+		AgendamentoVisita agend = null;
+		try {
+			agendLista = AgendamentoVisitaDAO.searchQuery(numChamado);
+			for(AgendamentoVisita a : agendLista){
+				if(a.getHorario().toString() == hora.toString()){
+					agend = a;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return agend;
+	}
+
+	public void inserirChamado(AgendamentoVisita agend){
+		try {
+			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado()) != null){
+				AgendamentoVisitaDAO.update(agend);
+			} else {
+				AgendamentoVisitaDAO.insert(agend);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 
 }

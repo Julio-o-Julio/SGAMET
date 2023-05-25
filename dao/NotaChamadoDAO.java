@@ -180,4 +180,36 @@ public class NotaChamadoDAO {
 		return ret;
 	}
 
+	public static NotaChamado pesquisarNtChamado(int numNota){
+		NotaChamado nota = null;
+		try {
+			nota = NotaChamadoDAO.searchQuery(numNota);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nota;
+	}
+	public static ArrayList<NotaChamado> pesquisarNtChamado(){
+		ArrayList<NotaChamado> notas = null;
+		try {
+			notas = NotaChamadoDAO.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return notas;
+	}
+
+	public void inserirNtChamado(NotaChamado nota){
+		try {
+			if(NotaChamadoDAO.searchQuery(nota.getNumNota()) != null){
+				NotaChamadoDAO.update(nota);
+			} else {
+				NotaChamadoDAO.insert(nota);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+
 }
