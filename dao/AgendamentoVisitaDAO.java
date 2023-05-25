@@ -1,0 +1,183 @@
+package SgametDAOS;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import Negocio.AgendamentoVisita;
+import Negocio.Chamado;
+import Negocio.Funcionario;
+import database.Conexao;
+
+public class AgendamentoVisitaDAO {
+    //TODO: Lidar com erros de forma mais apropriada
+	
+	/*
+   	use sgamet;
+	
+    private LocalDateTime horario;
+    private String nomeReceptor;
+    private String telefoneReceptor;
+    private String situacao;
+
+    private Chamado chamado;
+    private Funcionario funcionario;
+	
+	create table if not exists AgendamentoVisita (
+		codChamado INTEGER,
+		nomere VARCHAR(255),
+	    telefonere VARCHAR(225),
+	    situacao VARCHAR(225),
+	    codfunc INTEGER,
+	    horaAgendamento TIMESTAMP,
+	    PRIMARY KEY (codchamado, horaagendamento)
+	); 
+	 */
+
+    public static int insert(AgendamentoVisita agendamentoVisita) throws SQLException {
+        int qtdLinhasAfetadas = 0;
+        Connection conexaoPadrao = new Conexao().getConexao();
+        try {
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
+                    "INSERT INTO AgendamentoVisita (codChamado, nomere, telefonere, situacao, codfunc, horaAgendamento) VALUES (?,?,?,?,?,?)"
+            );
+
+            statementInsercao.setInt(1, agendamentoVisita.getChamado().getCodChamado());
+            statementInsercao.setString(2, agendamentoVisita.getNomeReceptor());
+            statementInsercao.setString(3, agendamentoVisita.getTelefoneReceptor());
+            statementInsercao.setString(4, (agendamentoVisita.getSituacao() == null)? "" : agendamentoVisita.getSituacao());
+            statementInsercao.setInt(5, agendamentoVisita.getFuncionario().getNroMatricula());
+            statementInsercao.setTimestamp(6, Timestamp.valueOf(agendamentoVisita.getHorario()));
+
+            qtdLinhasAfetadas = statementInsercao.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar criar usuário!");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+
+        return qtdLinhasAfetadas;
+    }
+
+
+    public static void update(AgendamentoVisita agendamentoVisita) throws SQLException {
+        Connection conexaoPadrao = new Conexao().getConexao();
+        try {
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
+                    "UPDATE AgendamentoVisita SET codChamado = ?, nomere = ?, telefonere = ?, situacao = ?, codfunc = ?, horaAgendamento = ? " +
+                    "WHERE horaAgendamento = ? and codChamado = ?"
+            );
+
+            statementInsercao.setInt(1, agendamentoVisita.getChamado().getCodChamado());
+            statementInsercao.setString(2, agendamentoVisita.getNomeReceptor());
+            statementInsercao.setString(3, agendamentoVisita.getTelefoneReceptor());
+            statementInsercao.setString(4, (agendamentoVisita.getSituacao() == null)? "" : agendamentoVisita.getSituacao());
+            statementInsercao.setInt(5, agendamentoVisita.getFuncionario().getNroMatricula());
+            statementInsercao.setTimestamp(6, Timestamp.valueOf(agendamentoVisita.getHorario()));
+            statementInsercao.setTimestamp(7, Timestamp.valueOf(agendamentoVisita.getHorario()));
+            statementInsercao.setInt(8, agendamentoVisita.getChamado().getCodChamado());
+
+            statementInsercao.execute();
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar atualizar usuário!");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+            }
+        }
+    }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    public static ArrayList<AgendamentoVisita> selectAll() throws SQLException{
+		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
+		Connection conexaoPadrao = new Conexao().getConexao(); 
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita");
+			ResultSet tuplasRes = prepSt.executeQuery(); 
+			while (tuplasRes.next()) {
+				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
+				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
+                arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
+                		tuplasRes.getString("nomere"), 
+                		tuplasRes.getString("telefonere"), 
+                		tuplasRes.getString("situacao")
+                		));
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+		} finally {			
+			try {
+				conexaoPadrao.close();
+			    return arrayRes;
+			} catch (SQLException e) {
+				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+			}
+		}
+		return arrayRes;
+	}
+
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public static ArrayList<AgendamentoVisita> searchQuery(int codCh) throws SQLException{
+		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
+		Connection conexaoPadrao = new Conexao().getConexao();
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita WHERE codchamado = ?");
+			prepSt.setInt(1, codCh);
+			ResultSet tuplasRes = prepSt.executeQuery(); 
+			while (tuplasRes.next()) {
+				arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
+                		tuplasRes.getString("nomere"), 
+                		tuplasRes.getString("telefonere"), 
+                		tuplasRes.getString("situacao")
+                		));
+			}
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+		} finally {
+			try {
+				conexaoPadrao.close();
+			} catch (SQLException e) {
+				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+			}
+		}
+		return arrayRes;
+	}
+	
+	
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+	public static boolean delete(int codCh) throws SQLException {
+		Connection conexaoPadrao = new Conexao().getConexao();
+		boolean ret = false;
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("DELETE FROM AgendamentoVisita WHERE codCh = ?");
+			prepSt.setInt(1, codCh);
+			ret = prepSt.execute();
+		} catch (SQLException e) {
+			System.out.println("Ocorreu um erro na conexao com o banco de dados MySQL: " + e.getMessage() + "\n Exclusão não concluída.");
+			return false;
+		}  finally {
+			try {
+				conexaoPadrao.close();
+			} catch (SQLException e) {
+				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+			}
+		}
+		return ret;
+	}
+
+}
