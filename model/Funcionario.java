@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-class Funcionario {
+public class Funcionario {
     private int nroMatricula;
     private String nome;
     private String cargo;
