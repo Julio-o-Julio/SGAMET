@@ -55,8 +55,10 @@ public class AgendamentoView extends JFrame{
 
         String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
-        JTextField codChamadoField = new JFormattedTextField();
+        JTextField codChamadoField = new JTextField();
+        JTextField matriculaFuncionario = new JTextField();
         restringirParaInteiro(codChamadoField);
+        restringirParaInteiro(matriculaFuncionario);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/## - ##h:##m", 'X'));
         JComboBox<String> situacao = new JComboBox<>(situacoes);
@@ -80,6 +82,7 @@ public class AgendamentoView extends JFrame{
             }
         });
 
+        JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionario, defaultFieldDimension);
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
         JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
@@ -102,6 +105,7 @@ public class AgendamentoView extends JFrame{
         this.setSize(tamanho);
 
         contentPanel.add(codChamadoPanel);
+        contentPanel.add(matriculaFuncio);
         contentPanel.add(horarioPanel);
         contentPanel.add(nomePanel);
         contentPanel.add(telefonePanel);
@@ -118,7 +122,7 @@ public class AgendamentoView extends JFrame{
     }
     public static void main(String[] args) {
 
-        new AgendamentoView("AAA", new Dimension(500,500));
+        new AgendamentoView("SGAMET", new Dimension(500,500));
 
     }
 }
