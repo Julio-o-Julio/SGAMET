@@ -5,8 +5,8 @@ import java.sql.*;
 public class Conexao {
 	private String database;
 	private String url;
-	private String user;
-	private String password;
+	private final String user;
+	private final String password;
 	//private String args = "?useTimezone=true&serverTimezone=UTC";
 
 	private Conexao(String url, String user, String password) {
@@ -23,8 +23,7 @@ public class Conexao {
 	}
 
 	public Connection getConexao() throws SQLException {
-        Connection conexao =  DriverManager.getConnection(this.url+"?useTimezone=true&serverTimezone=UTC", this.user, this.password);
-		return conexao;
+		return DriverManager.getConnection(this.url+"?useTimezone=true&serverTimezone=UTC", this.user, this.password);
 	}
 	
 	private void setDb(){
