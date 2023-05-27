@@ -99,7 +99,6 @@ public class ChamadoDAO {
 		} finally {			
 			try {
 				conexaoPadrao.close();
-			    return arrayRes;
 			} catch (SQLException e) {
 				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
 			}
