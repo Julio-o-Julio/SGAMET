@@ -6,6 +6,7 @@ import javax.swing.*;
 import controladora.AgendamentoController;
 import model.Chamado;
 import model.Funcionario;
+import view.Mensagem;
 import view.validation.HorarioValidador;
 
 import java.awt.event.ActionEvent;
@@ -65,14 +66,14 @@ public class AgendamentoViewCRUDactions implements ActionListener {
         if(e.getSource().equals(btnAgendar)){
             int codChamado = Integer.parseInt( codChamadoField.getText() );
             if(!AgendamentoController.existeChamado(codChamado)){
-                System.out.println("Chamado não existe!");
+                Mensagem.showError("Chamado não existe!");
                 return;
             }
             Chamado chamado = AgendamentoController.buscarChamado(codChamado);
 
             int matriculaFuncionario = Integer.parseInt(matriculaFuncionarioField.getText());
             if(!AgendamentoController.existeFuncionario(matriculaFuncionario)){
-                System.out.println("Nenhum funcionário pôde ser encontrado a partir da matrícula informada");
+                Mensagem.showError("Nenhum funcionário pôde ser encontrado a partir da matrícula informada");
                 return;
             }
             Funcionario funcionario = AgendamentoController.buscarFuncionario(matriculaFuncionario);

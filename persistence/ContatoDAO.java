@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import model.Contato;
+import view.Mensagem;
 
 
 public class ContatoDAO {
@@ -31,14 +32,14 @@ create table if not exists Contato (
             		+ " primary key (nome, email, telefone))");
             statementInsercao.execute();
 		} catch(SQLException e) {
-            System.out.println("Erro ao tentar criar tabela usuario !");
+            Mensagem.showError("Erro ao tentar criar tabela usuario !");
             e.printStackTrace();
         } finally {
             try {
 				if(conexaoPadrao!=null)
                 	conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 	}
@@ -59,13 +60,13 @@ create table if not exists Contato (
             qtdLinhasAfetadas = statementInsercao.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar criar usuário!");
+            Mensagem.showError("Erro ao tentar criar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 
@@ -92,13 +93,13 @@ create table if not exists Contato (
             statementInsercao.execute();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar atualizar usuário!");
+            Mensagem.showError("Erro ao tentar atualizar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
     }
@@ -109,7 +110,7 @@ create table if not exists Contato (
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Contato> selectAll() throws SQLException{
     	ContatoDAO.checkTable();
-		ArrayList<Contato> arrayRes = new ArrayList<Contato>();
+		ArrayList<Contato> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Contato");
@@ -120,12 +121,12 @@ create table if not exists Contato (
 					                		tuplasRes.getString("telefone")));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {			
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return arrayRes;
@@ -147,12 +148,12 @@ create table if not exists Contato (
 			                		tuplasRes.getString("telefone"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return res;
@@ -171,13 +172,13 @@ create table if not exists Contato (
             
 			ret = prepSt.execute();
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na conexao com o banco de dados MySQL: " + e.getMessage() + "\n Exclusão não concluída.");
+			Mensagem.showError("Ocorreu um erro na conexao com o banco de dados MySQL:\n" + e.getMessage() + "\n Exclusão não concluída.");
 			return false;
 		}  finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return ret;

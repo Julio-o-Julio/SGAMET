@@ -14,13 +14,13 @@ public class AgendamentoCodChamadoActions implements FocusListener {
         public void focusGained(FocusEvent e) {
             // Ação a ser executada quando o JTextField ganha o foco
             String valor = codChamadoField.getText();
-            System.out.println("Valor atual do JTextField: " + valor);
+            System.out.println("Valor atual do JTextField:\n" + valor);
         }
 
         @Override
         public void focusLost(FocusEvent e) {
             // Ação a ser executada quando o JTextField perde o foco
             String valor = codChamadoField.getText();
-            System.out.println("Valor final do JTextField: " + valor);
+            System.out.println("Valor final do JTextField:\n" + valor);
         }
 }

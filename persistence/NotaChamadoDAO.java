@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import model.Chamado;
 import model.NotaChamado;
+import view.Mensagem;
 
 
 public class NotaChamadoDAO {
@@ -32,14 +33,14 @@ public class NotaChamadoDAO {
             		+ "	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado))");
             statementInsercao.execute();
 		} catch(SQLException e) {
-            System.out.println("Erro ao tentar criar tabela usuario !");
+            Mensagem.showError("Erro ao tentar criar tabela usuario !");
             e.printStackTrace();
         } finally {
             try {
 				if(conexaoPadrao!=null)
                 	conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 	}
@@ -60,13 +61,13 @@ public class NotaChamadoDAO {
             qtdLinhasAfetadas = statementInsercao.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar criar usuário!");
+            Mensagem.showError("Erro ao tentar criar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 
@@ -91,13 +92,13 @@ public class NotaChamadoDAO {
             statementInsercao.execute();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar atualizar usuário!");
+            Mensagem.showError("Erro ao tentar atualizar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
     }
@@ -108,7 +109,7 @@ public class NotaChamadoDAO {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<NotaChamado> selectAll() throws SQLException{
     	NotaChamadoDAO.checkTable();
-		ArrayList<NotaChamado> arrayRes = new ArrayList<NotaChamado>();
+		ArrayList<NotaChamado> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM notachamado");
@@ -120,12 +121,12 @@ public class NotaChamadoDAO {
                                             tuplasRes.getString("descricao")));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {			
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return arrayRes;
@@ -147,12 +148,12 @@ public class NotaChamadoDAO {
                                             tuplasRes.getString("descricao"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return res;
@@ -168,13 +169,13 @@ public class NotaChamadoDAO {
 			prepSt.setInt(1, numNota);
 			ret = prepSt.execute();
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na conexao com o banco de dados MySQL: " + e.getMessage() + "\n Exclusão não concluída.");
+			Mensagem.showError("Ocorreu um erro na conexao com o banco de dados MySQL:\n" + e.getMessage() + "\n Exclusão não concluída.");
 			return false;
 		}  finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				System.out.println("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return ret;

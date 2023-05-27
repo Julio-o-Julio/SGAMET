@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import model.AgendamentoVisita;
 import model.Chamado;
 import model.Funcionario;
+import view.Mensagem;
 
 
 public class AgendamentoVisitaDAO {
@@ -48,14 +49,14 @@ create table if not exists AgendamentoVisita (
             		+ " PRIMARY KEY (codchamado, horaagendamento))");
             statementInsercao.execute();
 		} catch(SQLException e) {
-            System.out.println("Erro ao tentar criar tabela usuario !");
+			Mensagem.showError("Erro ao tentar criar tabela usuario !");
             e.printStackTrace();
         } finally {
             try {
 				if(conexaoPadrao != null)
                 	conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 	}
@@ -79,13 +80,13 @@ create table if not exists AgendamentoVisita (
             qtdLinhasAfetadas = statementInsercao.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar criar usuário!");
+			Mensagem.showError("Erro ao tentar criar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
 
@@ -114,13 +115,13 @@ create table if not exists AgendamentoVisita (
             statementInsercao.execute();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao tentar atualizar usuário!");
+            Mensagem.showError("Erro ao tentar atualizar usuário!");
             e.printStackTrace();
         } finally {
             try {
                 conexaoPadrao.close();
             } catch (SQLException e) {
-                System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
             }
         }
     }
@@ -132,7 +133,7 @@ create table if not exists AgendamentoVisita (
     
     public static ArrayList<AgendamentoVisita> selectAll() throws SQLException{
     	AgendamentoVisitaDAO.checkTable();
-		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
+		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita");
@@ -148,12 +149,12 @@ create table if not exists AgendamentoVisita (
                 		));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {			
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return arrayRes;
@@ -163,7 +164,7 @@ create table if not exists AgendamentoVisita (
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static ArrayList<AgendamentoVisita> searchQuery(int codCh) throws SQLException{
 		AgendamentoVisitaDAO.checkTable();
-		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<AgendamentoVisita>();
+		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita WHERE codchamado = ?");
@@ -180,12 +181,12 @@ create table if not exists AgendamentoVisita (
                 		));
 			}
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
 		} finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return arrayRes;
@@ -202,13 +203,13 @@ create table if not exists AgendamentoVisita (
 			prepSt.setInt(1, codCh);
 			ret = prepSt.execute();
 		} catch (SQLException e) {
-			System.out.println("Ocorreu um erro na conexao com o banco de dados MySQL: " + e.getMessage() + "\n Exclusão não concluída.");
+			Mensagem.showError("Ocorreu um erro na conexao com o banco de dados MySQL:\n" + e.getMessage() + "\nExclusão não concluída.");
 			return false;
 		}  finally {
 			try {
 				conexaoPadrao.close();
 			} catch (SQLException e) {
-				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
 			}
 		}
 		return ret;
