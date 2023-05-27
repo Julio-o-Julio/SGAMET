@@ -35,7 +35,8 @@ create table if not exists Contato (
             e.printStackTrace();
         } finally {
             try {
-                conexaoPadrao.close();
+				if(conexaoPadrao!=null)
+                	conexaoPadrao.close();
             } catch (SQLException e) {
                 System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
             }
@@ -123,7 +124,6 @@ create table if not exists Contato (
 		} finally {			
 			try {
 				conexaoPadrao.close();
-			    return arrayRes;
 			} catch (SQLException e) {
 				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
 			}
