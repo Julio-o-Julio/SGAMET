@@ -1,35 +1,34 @@
-package dao;
+package persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import model.Usuario;
+import model.Contato;
 
 
-public class UsuarioDAO {
+public class ContatoDAO {
     //TODO: Lidar com erros de forma mais apropriada
 	
 	/*
    	use sgamet;
 	
-        this.email = email;
-        this.nomeUsuario = nomeUsuario;
-        this.senha = senha;
-	
-	create table if not exists Usuario (
-		nomeusuario VARCHAR(255) PRIMARY KEY,
-		email VARCHAR(255),
-	    senha VARCHAR(20)
-	); 
+create table if not exists Contato (
+	nome VARCHAR(255),
+    email VARCHAR(255),
+    telefone VARCHAR(255),
+    primary key (nome, email, telefone)
+); 
 	 */
+	
 	private static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
-            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Usuario ("
-            		+ "		nomeusuario VARCHAR(255) PRIMARY KEY,"
-            		+ "		email VARCHAR(255),"
-            		+ "	    senha VARCHAR(20))");
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Contato ("
+            		+ "	nome VARCHAR(255),"
+            		+ " email VARCHAR(255),"
+            		+ " telefone VARCHAR(255),"
+            		+ " primary key (nome, email, telefone))");
             statementInsercao.execute();
 		} catch(SQLException e) {
             System.out.println("Erro ao tentar criar tabela usuario !");
@@ -42,20 +41,20 @@ public class UsuarioDAO {
             }
         }
 	}
-	
-    public static int insert(Usuario usuario) throws SQLException {
-    	UsuarioDAO.checkTable();
+
+    public static int insert(Contato Contato) throws SQLException {
+    	ContatoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
-                    "INSERT INTO Usuario (nomeusuario, email, senha) VALUES (?,?,?)"
+                    "INSERT INTO Contato (nome, email, telefone) VALUES (?,?,?)"
             );
 
-            statementInsercao.setString(1, usuario.getNomeUsuario());
-            statementInsercao.setString(2, usuario.getEmail());
-            statementInsercao.setString(3, usuario.getSenha());
-            
+            statementInsercao.setString(1, Contato.getNome());
+            statementInsercao.setString(2, Contato.getEmail());
+            statementInsercao.setString(3, Contato.getTelefone());
+
             qtdLinhasAfetadas = statementInsercao.executeUpdate();
 
         } catch (SQLException e) {
@@ -73,19 +72,21 @@ public class UsuarioDAO {
     }
 
 
-    public static void update(Usuario usuario) throws SQLException {
-    	UsuarioDAO.checkTable();
+    public static void update(Contato Contato) throws SQLException {
+    	ContatoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
-                    "UPDATE Usuario SET nomeusuario = ?, email = ?, senha = ? " +
-                    "WHERE nomeusuario = ?"
+                    "UPDATE Contato SET nome = ?, email = ?, telefone = ? " +
+                    "WHERE nome = ? and email = ? and telefone = ?"
             );
 
-            statementInsercao.setString(1, usuario.getNomeUsuario());
-            statementInsercao.setString(2, usuario.getEmail());
-            statementInsercao.setString(3, usuario.getSenha());
-            statementInsercao.setString(4, usuario.getNomeUsuario());
+            statementInsercao.setString(1, Contato.getNome());
+            statementInsercao.setString(2, Contato.getEmail());
+            statementInsercao.setString(3, Contato.getTelefone());
+            statementInsercao.setString(4, Contato.getNome());
+            statementInsercao.setString(5, Contato.getEmail());
+            statementInsercao.setString(6, Contato.getTelefone());
 
             statementInsercao.execute();
 
@@ -105,17 +106,17 @@ public class UsuarioDAO {
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static ArrayList<Usuario> selectAll() throws SQLException{
-    	UsuarioDAO.checkTable();
-		ArrayList<Usuario> arrayRes = new ArrayList<Usuario>();
+    public static ArrayList<Contato> selectAll() throws SQLException{
+    	ContatoDAO.checkTable();
+		ArrayList<Contato> arrayRes = new ArrayList<Contato>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Usuario");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Contato");
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {
-                arrayRes.add(new Usuario(	tuplasRes.getString("email"),
-                							tuplasRes.getString("nomeusuario"),
-					                	    tuplasRes.getString("senha")));
+                arrayRes.add(new Contato(   tuplasRes.getString("nome"),
+                							tuplasRes.getString("email"),
+					                		tuplasRes.getString("telefone")));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
@@ -131,18 +132,19 @@ public class UsuarioDAO {
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static Usuario searchQuery(String nomeUsuario) throws SQLException{
-		UsuarioDAO.checkTable();
-		Usuario res = null;
+	public static Contato searchQuery(String nome) throws SQLException{
+		ContatoDAO.checkTable();
+		Contato res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Usuario WHERE cpfcnpj LIKE ?");
-			prepSt.setString(1, nomeUsuario);
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Contato WHERE nome = ?");
+			prepSt.setString(1, nome);
+            
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {
-                res = new Usuario(	tuplasRes.getString("email"),
-						tuplasRes.getString("nomeusuario"),
-                	    tuplasRes.getString("senha"));
+                res = new Contato(   tuplasRes.getString("nome"),
+									tuplasRes.getString("email"),
+			                		tuplasRes.getString("telefone"));
 			}
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro na execução da query de consulta: " + e.getMessage());
@@ -157,13 +159,16 @@ public class UsuarioDAO {
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(String nomeUsuario) throws SQLException {
-		UsuarioDAO.checkTable();
+	public static boolean delete(String nome, String email, String telefone) throws SQLException {
+		ContatoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("DELETE FROM Usuario WHERE nomeusuario = ?");
-			prepSt.setString(1, nomeUsuario);
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("DELETE FROM Contato WHERE nome = ? and email = ? and telefone = ?");
+			prepSt.setString(1, nome);
+			prepSt.setString(2, email);
+			prepSt.setString(3, telefone);
+            
 			ret = prepSt.execute();
 		} catch (SQLException e) {
 			System.out.println("Ocorreu um erro na conexao com o banco de dados MySQL: " + e.getMessage() + "\n Exclusão não concluída.");
@@ -181,31 +186,31 @@ public class UsuarioDAO {
 
 
 
-	public static Usuario pesquisarUsuario(String nomeUsuario){
-		Usuario Usuario = null;
+	public static Contato pesquisarContato(String nome){
+		Contato contato = null;
 		try {
-			Usuario = UsuarioDAO.searchQuery(nomeUsuario);
+			contato = ContatoDAO.searchQuery(nome);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return Usuario;
+		return contato;
 	}
-	public static ArrayList<Usuario> pesquisarUsuario(){
-		ArrayList<Usuario> filiais = null;
+	public static ArrayList<Contato> pesquisarContato(){
+		ArrayList<Contato> contatos = null;
 		try {
-			filiais = UsuarioDAO.selectAll();
+			contatos = ContatoDAO.selectAll();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return filiais;
+		return contatos;
 	}
 
-	public static void inserirUsuario(Usuario Usuario){
+	public static void inserirContato(Contato Contato){
 		try {
-			if(UsuarioDAO.searchQuery(Usuario.getNomeUsuario()) != null){
-				UsuarioDAO.update(Usuario);
+			if(ContatoDAO.searchQuery(Contato.getNome()) != null){
+				ContatoDAO.update(Contato);
 			} else {
-				UsuarioDAO.insert(Usuario);
+				ContatoDAO.insert(Contato);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

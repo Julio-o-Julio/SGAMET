@@ -106,11 +106,11 @@ public class AgendamentoView extends JFrame{
         this.setSize(tamanho);
 
         contentPanel.add(codChamadoPanel);
-        contentPanel.add(matriculaFuncio);
-        contentPanel.add(horarioPanel);
         contentPanel.add(nomePanel);
         contentPanel.add(telefonePanel);
-        contentPanel.add(situacaoPanel);
+        contentPanel.add(matriculaFuncio);
+        contentPanel.add(horarioPanel);
+        contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
         contentPanel.add(new JSeparator());
 
 

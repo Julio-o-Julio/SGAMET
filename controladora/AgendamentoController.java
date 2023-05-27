@@ -1,9 +1,9 @@
 package controladora;
 import java.time.LocalDateTime;
 
-import dao.FuncionarioDAO;
-import dao.AgendamentoVisitaDAO;
-import dao.ChamadoDAO;
+import persistence.FuncionarioDAO;
+import persistence.AgendamentoVisitaDAO;
+import persistence.ChamadoDAO;
 import model.Funcionario;
 import model.AgendamentoVisita;
 import model.Chamado;
