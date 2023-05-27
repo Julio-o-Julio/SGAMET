@@ -40,10 +40,27 @@ public class AgendamentoViewCRUDactions implements ActionListener {
         this.btnAgendar = btnAgendar;
         this.btnAtualizar = btnAtualizar;
     }
-
+    private boolean fieldsValidos(){
+        if(!(codChamadoField.getText().length() > 0)){
+            return false;
+        }
+        if(!(matriculaFuncionarioField.getText().length()>0)){
+            return false;
+        }
+        if(! (nomeField.getText().length() > 0)){
+            return false;
+        }
+        if(! (telefoneField.getText().length() > 0)){
+            return false;
+        }
+        if(!HorarioValidador.ehValido(horarioField)){
+            return false;
+        }
+        return true;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println( e);
+        if(!fieldsValidos()) return;
 
         if(e.getSource().equals(btnAgendar)){
             int codChamado = Integer.parseInt( codChamadoField.getText() );
@@ -61,9 +78,6 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             Funcionario funcionario = AgendamentoController.buscarFuncionario(matriculaFuncionario);
             String nomeRes = nomeField.getText();
             String telefoneRes = telefoneField.getText();
-            if(!HorarioValidador.ehValido(horarioField)){
-                return;
-            }
             LocalDateTime horario = HorarioValidador.getValor(horarioField);
             AgendamentoController.registrarAgendamento(chamado, horario, funcionario, nomeRes, telefoneRes); 
         }
