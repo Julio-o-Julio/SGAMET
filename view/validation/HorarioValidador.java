@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 public class HorarioValidador{
     private static boolean dataEhValida(String data){
-        data = data.replaceAll("[^\\d]","");
+        data = data.replaceAll("[^\\d|/]","");
         try{
             new SimpleDateFormat("dd/MM/yyyy").parse(data.trim());
             return true;
@@ -20,7 +20,7 @@ public class HorarioValidador{
         }
     }
     private static boolean horaEhValida(String hora) {
-        hora = hora.replaceAll("[^\\d]","");
+        hora = hora.replaceAll("[^\\d|:]","");
         try {
             DateTimeFormatter.ofPattern("HH:mm").parse(hora.trim());
             return true;

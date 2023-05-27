@@ -43,18 +43,23 @@ public class AgendamentoViewCRUDactions implements ActionListener {
     }
     private boolean fieldsValidos(){
         if(!(codChamadoField.getText().length() > 0)){
-            return false;
-        }
-        if(!(matriculaFuncionarioField.getText().length()>0)){
+            Mensagem.showError("O código do chamado informado deve ser válido!");
             return false;
         }
         if(! (nomeField.getText().length() > 0)){
+            Mensagem.showError("O nome do receptor informado deve ser válido!");
             return false;
         }
-        if(! (telefoneField.getText().length() > 0)){
+        if(! (telefoneField.getText().replaceAll("[^\\d]","").length() >= 11)){
+            Mensagem.showError("O telefone do receptor informado deve ser válido!");
+            return false;
+        }
+        if(!(matriculaFuncionarioField.getText().length()>0)){
+            Mensagem.showError("A matrícula informada deve ser válida!");
             return false;
         }
         if(!HorarioValidador.ehValido(horarioField)){
+            Mensagem.showError("O horário informado deve ser válido!");
             return false;
         }
         return true;

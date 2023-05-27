@@ -60,7 +60,7 @@ public class AgendamentoView extends JFrame{
         restringirParaInteiro(codChamadoField);
         restringirParaInteiro(matriculaFuncionarioField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
-        JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/## - ##h:##m", 'X'));
+        JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/#### - ##h:##m", 'X'));
         JComboBox<String> situacao = new JComboBox<>(situacoes);
 
         JButton btnAgendar = new JButton("Agendar");
