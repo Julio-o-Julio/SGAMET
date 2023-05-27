@@ -49,7 +49,8 @@ public class FuncionarioDAO {
             e.printStackTrace();
         } finally {
             try {
-                conexaoPadrao.close();
+				if(conexaoPadrao!=null)
+                	conexaoPadrao.close();
             } catch (SQLException e) {
                 System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
             }
@@ -62,7 +63,7 @@ public class FuncionarioDAO {
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
-        	if(funcionario.getCargo() == "TECNICO") {
+        	if(funcionario.getCargo().equals("TECNICO")) {
 	        	for(LocalDateTime item : funcionario.getHorAgendados()) {
 		            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
 		                    "INSERT INTO Funcionario (nroMatricula, nome, cargo, pais, estado, cidade, telefone, horaagendamento) VALUES (?,?,?,?,?,?,?,?)"
@@ -171,7 +172,6 @@ public class FuncionarioDAO {
 		} finally {			
 			try {
 				conexaoPadrao.close();
-			    return arrayRes;
 			} catch (SQLException e) {
 				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
 			}
