@@ -52,7 +52,8 @@ create table if not exists AgendamentoVisita (
             e.printStackTrace();
         } finally {
             try {
-                conexaoPadrao.close();
+				if(conexaoPadrao != null)
+                	conexaoPadrao.close();
             } catch (SQLException e) {
                 System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
             }
@@ -151,7 +152,6 @@ create table if not exists AgendamentoVisita (
 		} finally {			
 			try {
 				conexaoPadrao.close();
-			    return arrayRes;
 			} catch (SQLException e) {
 				System.out.println("Ocorreu uma exceção ao fechar a conexão: " + e.getMessage());
 			}
@@ -229,7 +229,7 @@ create table if not exists AgendamentoVisita (
 		try {
 			agendLista = AgendamentoVisitaDAO.searchQuery(numChamado);
 			for(AgendamentoVisita a : agendLista){
-				if(a.getHorario().toString() == hora.toString()){
+				if(a.getHorario().toString().equals(hora.toString())){
 					agend = a;
 				}
 			}
@@ -241,7 +241,7 @@ create table if not exists AgendamentoVisita (
 
 	public static void inserirChamado(AgendamentoVisita agend){
 		try {
-			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado()) != null){
+			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado()).size() > 0){
 				AgendamentoVisitaDAO.update(agend);
 			} else {
 				AgendamentoVisitaDAO.insert(agend);
