@@ -44,7 +44,7 @@ create table if not exists Contato (
         }
 	}
 
-    public static int insert(Contato Contato) throws SQLException {
+    private static int insert(Contato Contato) throws SQLException {
     	ContatoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -74,7 +74,7 @@ create table if not exists Contato (
     }
 
 
-    public static void update(Contato Contato) throws SQLException {
+    private static void update(Contato Contato) throws SQLException {
     	ContatoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -160,7 +160,7 @@ create table if not exists Contato (
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(String nome, String email, String telefone) throws SQLException {
+	private static boolean delete(String nome, String email, String telefone) throws SQLException {
 		ContatoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

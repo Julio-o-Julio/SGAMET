@@ -45,7 +45,7 @@ public class UsuarioDAO {
         }
 	}
 	
-    public static int insert(Usuario usuario) throws SQLException {
+    private static int insert(Usuario usuario) throws SQLException {
     	UsuarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -75,7 +75,7 @@ public class UsuarioDAO {
     }
 
 
-    public static void update(Usuario usuario) throws SQLException {
+    private static void update(Usuario usuario) throws SQLException {
     	UsuarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -158,7 +158,7 @@ public class UsuarioDAO {
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(String nomeUsuario) throws SQLException {
+	private static boolean delete(String nomeUsuario) throws SQLException {
 		UsuarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

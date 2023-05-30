@@ -61,7 +61,7 @@ create table if not exists AgendamentoVisita (
         }
 	}
 
-    public static int insert(AgendamentoVisita agendamentoVisita) throws SQLException {
+    private static int insert(AgendamentoVisita agendamentoVisita) throws SQLException {
     	AgendamentoVisitaDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -94,7 +94,7 @@ create table if not exists AgendamentoVisita (
     }
 
 
-    public static void update(AgendamentoVisita agendamentoVisita) throws SQLException {
+    private static void update(AgendamentoVisita agendamentoVisita) throws SQLException {
     	AgendamentoVisitaDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -162,7 +162,7 @@ create table if not exists AgendamentoVisita (
 
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static ArrayList<AgendamentoVisita> searchQuery(int codCh) throws SQLException{
+	private static ArrayList<AgendamentoVisita> searchQuery(int codCh) throws SQLException{
 		AgendamentoVisitaDAO.checkTable();
 		ArrayList<AgendamentoVisita> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
@@ -194,7 +194,7 @@ create table if not exists AgendamentoVisita (
 	
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(int codCh) throws SQLException {
+	private static boolean delete(int codCh) throws SQLException {
 		AgendamentoVisitaDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
@@ -252,5 +252,19 @@ create table if not exists AgendamentoVisita (
 			e.printStackTrace();
 		}
 	} 
+
+
+	public static void main(String[] args) {
+		//AgendamentoVisita agend = new AgendamentoVisita(LocalDateTime.now(), "gerso", "255", "top", new Chamado(4, "oi", "oi2", "oi3"), new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
+		
+
+		//FuncionarioDAO.inserirFuncionario(new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
+		//ChamadoDAO.inserirChamado(new Chamado(4, "oi", "oi2", "oi3"));
+
+		System.out.println(ChamadoDAO.pesquisarChamado(4));
+		
+		//AgendamentoVisitaDAO.inserirChamado(agend);
+	}
+
 
 }

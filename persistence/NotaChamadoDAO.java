@@ -45,7 +45,7 @@ public class NotaChamadoDAO {
         }
 	}
 
-    public static int insert(NotaChamado notaChamado) throws SQLException {
+    private static int insert(NotaChamado notaChamado) throws SQLException {
     	NotaChamadoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -75,7 +75,7 @@ public class NotaChamadoDAO {
     }
 
 
-    public static void update(NotaChamado notaChamado) throws SQLException {
+    private static void update(NotaChamado notaChamado) throws SQLException {
     	NotaChamadoDAO.checkTable();
     	Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -160,7 +160,7 @@ public class NotaChamadoDAO {
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(int numNota) throws SQLException {
+	private static boolean delete(int numNota) throws SQLException {
 		NotaChamadoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

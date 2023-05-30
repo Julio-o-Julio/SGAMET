@@ -59,7 +59,7 @@ public class FuncionarioDAO {
 	}
 	
 	
-    public static int insert(Funcionario funcionario) throws SQLException {
+    private static int insert(Funcionario funcionario) throws SQLException {
     	FuncionarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -83,8 +83,8 @@ public class FuncionarioDAO {
 		        }
         	} else {
 	            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
-	                    "INSERT INTO Funcionario (nroMatricula, nome, cargo, pais, estado, cidade, telefone, horaagendamento) VALUES (?,?,?,?,?,?,?,?)"
-	            );
+					"INSERT INTO Funcionario (nroMatricula, nome, cargo, pais, estado, cidade, telefone, horaagendamento) VALUES (?,?,?,?,?,?,?,?)"
+		            );
 	     
 	            statementInsercao.setInt(1, funcionario.getNroMatricula());
 	            statementInsercao.setString(2, funcionario.getNome());
@@ -93,7 +93,7 @@ public class FuncionarioDAO {
 	            statementInsercao.setString(5, funcionario.getEstado());
 	            statementInsercao.setString(6, funcionario.getCidade());
 	            statementInsercao.setString(7, funcionario.getTelefone());
-	            statementInsercao.setTimestamp(8, Timestamp.valueOf("1900-01-01 01:01:01"));
+	           	statementInsercao.setTimestamp(8, Timestamp.valueOf("1999-01-01 01:01:01"));
 	            
 	            qtdLinhasAfetadas = statementInsercao.executeUpdate();
         	}
@@ -113,7 +113,7 @@ public class FuncionarioDAO {
     }
 
 
-    public static void update(Funcionario funcionario) throws SQLException {
+    private static void update(Funcionario funcionario) throws SQLException {
     	FuncionarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -239,7 +239,7 @@ public class FuncionarioDAO {
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(int nroMatricula) throws SQLException {
+	private static boolean delete(int nroMatricula) throws SQLException {
 		FuncionarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

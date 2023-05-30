@@ -58,7 +58,7 @@ create table if not exists Cliente (
         }
 	}
 
-    public static int insert(Cliente cliente) throws SQLException {
+    private static int insert(Cliente cliente) throws SQLException {
     	ClienteDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -92,7 +92,7 @@ create table if not exists Cliente (
     }
 
 
-    public static void update(Cliente cliente) throws SQLException {
+    private static void update(Cliente cliente) throws SQLException {
     	ClienteDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -187,7 +187,7 @@ create table if not exists Cliente (
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(String cpfCnpj) throws SQLException {
+	private static boolean delete(String cpfCnpj) throws SQLException {
 		ClienteDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

@@ -49,7 +49,7 @@ create table if not exists Equipamento (
         }
 	}
 	
-    public static int insert(Equipamento Equipamento) throws SQLException {
+    private static int insert(Equipamento Equipamento) throws SQLException {
     	EquipamentoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
@@ -81,7 +81,7 @@ create table if not exists Equipamento (
     }
 
 
-    public static void update(Equipamento Equipamento) throws SQLException {
+    private static void update(Equipamento Equipamento) throws SQLException {
     	EquipamentoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -174,7 +174,7 @@ create table if not exists Equipamento (
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(String numSerie) throws SQLException {
+	private static boolean delete(String numSerie) throws SQLException {
 		EquipamentoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;

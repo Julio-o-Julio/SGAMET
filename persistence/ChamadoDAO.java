@@ -21,7 +21,30 @@ public class ChamadoDAO {
 	); 
 	 */
 
-    public static int insert(Chamado chamado) throws SQLException {
+	 private static void checkTable() {
+		Connection conexaoPadrao = null;
+		try {
+			conexaoPadrao = new Conexao().getConexao();
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists Chamado ("
+            		+ "	codchamado INTEGER PRIMARY KEY, codurgencia VARCHAR(255), codsituacao VARCHAR(255), telefonesuporte VARCHAR(255))");
+            statementInsercao.execute();
+		} catch(SQLException e) {
+            Mensagem.showError("Erro ao tentar criar tabela usuario !");
+            e.printStackTrace();
+        } finally {
+            try {
+				if(conexaoPadrao!=null)
+                	conexaoPadrao.close();
+            } catch (SQLException e) {
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
+            }
+        }
+	}
+
+	
+
+    private static int insert(Chamado chamado) throws SQLException {
+		ChamadoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -51,7 +74,8 @@ public class ChamadoDAO {
     }
 
 
-    public static void update(Chamado chamado) throws SQLException {
+    private static void update(Chamado chamado) throws SQLException {
+		ChamadoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -84,6 +108,7 @@ public class ChamadoDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Chamado> selectAll() throws SQLException{
+		ChamadoDAO.checkTable();
 		ArrayList<Chamado> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -93,7 +118,7 @@ public class ChamadoDAO {
                 arrayRes.add(new Chamado(   tuplasRes.getInt("codchamado"),
                 							tuplasRes.getString("codurgencia"),
 					                		tuplasRes.getString("codsituacao"),
-                                            tuplasRes.getString("telefoneresponsavel")));
+                                            tuplasRes.getString("telefonesuporte")));
 			}
 		} catch (SQLException e) {
 			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
@@ -109,6 +134,7 @@ public class ChamadoDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Chamado searchQuery(int codChamado) throws SQLException{
+		ChamadoDAO.checkTable();
 		Chamado res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -119,7 +145,7 @@ public class ChamadoDAO {
                 res = new Chamado(   tuplasRes.getInt("codchamado"),
 											tuplasRes.getString("codurgencia"),
 					                		tuplasRes.getString("codsituacao"),
-					                        tuplasRes.getString("telefoneresponsavel"));
+					                        tuplasRes.getString("telefonesuporte"));
 			}
 		} catch (SQLException e) {
 			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
@@ -134,7 +160,8 @@ public class ChamadoDAO {
 	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-	public static boolean delete(int codChamado) throws SQLException {
+	private static boolean delete(int codChamado) throws SQLException {
+		ChamadoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
@@ -175,12 +202,12 @@ public class ChamadoDAO {
 		return chamados;
 	}
 
-	public static void inserirChamado(Chamado nota){
+	public static void inserirChamado(Chamado chamado){
 		try {
-			if(ChamadoDAO.searchQuery(nota.getCodChamado()) != null){
-				ChamadoDAO.update(nota);
+			if(ChamadoDAO.searchQuery(chamado.getCodChamado()) != null){
+				ChamadoDAO.update(chamado);
 			} else {
-				ChamadoDAO.insert(nota);
+				ChamadoDAO.insert(chamado);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
