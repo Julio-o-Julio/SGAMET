@@ -88,7 +88,7 @@ public class AgendamentoView extends JFrame{
         JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
         JPanel telefonePanel = criarItemPanel("Telefone receptor:", telefoneField, defaultFieldDimension);
-        JPanel situacaoPanel = criarItemPanel("Situação chamado:", situacao, defaultFieldDimension);
+        //JPanel situacaoPanel = criarItemPanel("Situação chamado:", situacao, defaultFieldDimension);
 
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
         JPanel btnsPanel = new JPanel();
@@ -110,7 +110,7 @@ public class AgendamentoView extends JFrame{
         contentPanel.add(telefonePanel);
         contentPanel.add(matriculaFuncio);
         contentPanel.add(horarioPanel);
-        contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
+        //contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
         contentPanel.add(new JSeparator());
 
 
@@ -120,10 +120,5 @@ public class AgendamentoView extends JFrame{
 
         this.add(contentPanel);
         this.setVisible(true);
-    }
-    public static void main(String[] args) {
-
-        new AgendamentoView("SGAMET", new Dimension(500,500));
-
     }
 }
