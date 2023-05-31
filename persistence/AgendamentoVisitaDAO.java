@@ -191,6 +191,40 @@ create table if not exists AgendamentoVisita (
 		}
 		return arrayRes;
 	}
+
+
+
+
+	private static AgendamentoVisita searchQuery(int codCh, LocalDateTime hor) throws SQLException{
+		AgendamentoVisitaDAO.checkTable();
+		AgendamentoVisita agend = null;
+		Connection conexaoPadrao = new Conexao().getConexao();
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita WHERE codchamado = ? and horaagendamento = ?");
+			prepSt.setInt(1, codCh);
+			prepSt.setTimestamp(2, Timestamp.valueOf(hor));
+			ResultSet tuplasRes = prepSt.executeQuery(); 
+			while (tuplasRes.next()) {
+				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
+				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
+				agend = new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
+                		tuplasRes.getString("nomere"), 
+                		tuplasRes.getString("telefonere"), 
+                		tuplasRes.getString("situacao"),
+						ch, func
+                		);
+			}
+		} catch (SQLException e) {
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
+		} finally {
+			try {
+				conexaoPadrao.close();
+			} catch (SQLException e) {
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
+			}
+		}
+		return agend;
+	}
 	
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -225,15 +259,9 @@ create table if not exists AgendamentoVisita (
 		return agend;
 	}
 	public static AgendamentoVisita pesquisarAgtVisita(int numChamado, LocalDateTime hora){
-		ArrayList<AgendamentoVisita> agendLista;
 		AgendamentoVisita agend = null;
 		try {
-			agendLista = AgendamentoVisitaDAO.searchQuery(numChamado);
-			for(AgendamentoVisita a : agendLista){
-				if(a.getHorario().toString().equals(hora.toString())){
-					agend = a;
-				}
-			}
+			agend = AgendamentoVisitaDAO.searchQuery(numChamado, hora);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -242,7 +270,7 @@ create table if not exists AgendamentoVisita (
 
 	public static void inserirChamado(AgendamentoVisita agend){
 		try {
-			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado()).size() > 0){
+			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado(), agend.getHorario()) != null){
 				AgendamentoVisitaDAO.update(agend);
 			} else {
 				AgendamentoVisitaDAO.insert(agend);
