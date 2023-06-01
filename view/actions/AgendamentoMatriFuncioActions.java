@@ -1,4 +1,5 @@
 package view.actions;
+
 import model.Funcionario;
 import persistence.FuncionarioDAO;
 import view.Mensagem;

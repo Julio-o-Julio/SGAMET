@@ -91,7 +91,7 @@ public class AgendamentoView extends JFrame{
 
         JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionarioField, defaultFieldDimension);
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
-        JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
+        JPanel horarioPanel = criarItemPanel("Data e horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
         JPanel telefonePanel = criarItemPanel("Telefone receptor:", telefoneField, defaultFieldDimension);
         //JPanel situacaoPanel = criarItemPanel("Situação chamado:", situacao, defaultFieldDimension);
