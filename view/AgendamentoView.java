@@ -1,5 +1,7 @@
 package view;
 
+import view.actions.AgendamentoCodChamadoActions;
+import view.actions.AgendamentoMatriFuncioActions;
 import view.actions.AgendamentoViewCRUDactions;
 
 import javax.swing.*;
@@ -67,6 +69,7 @@ public class AgendamentoView extends JFrame{
         JButton btnAgendar = new JButton("Agendar");
         JButton btnAtualizar = new JButton("Atualizar");
         JButton btnCancelar = new JButton("Cancelar");
+
         AgendamentoViewCRUDactions actionListenerCrud = new AgendamentoViewCRUDactions(nomeField,
                 codChamadoField,
                 matriculaFuncionarioField,
@@ -75,6 +78,8 @@ public class AgendamentoView extends JFrame{
                 situacao,
                 btnAgendar,
                 btnAtualizar);
+        codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));
+        matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
         btnAtualizar.addActionListener(actionListenerCrud);
         btnCancelar.addActionListener(new ActionListener() {

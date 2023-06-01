@@ -1,5 +1,9 @@
 package view.actions;
+import model.Chamado;
+import persistence.ChamadoDAO;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -12,15 +16,20 @@ public class AgendamentoCodChamadoActions implements FocusListener {
 
         @Override
         public void focusGained(FocusEvent e) {
-            // Ação a ser executada quando o JTextField ganha o foco
-            String valor = codChamadoField.getText();
-            System.out.println("Valor atual do JTextField:\n" + valor);
+            return;
         }
-
         @Override
         public void focusLost(FocusEvent e) {
-            // Ação a ser executada quando o JTextField perde o foco
-            String valor = codChamadoField.getText();
-            System.out.println("Valor final do JTextField:\n" + valor);
+            String codChamadoInserido = codChamadoField.getText();
+            if(codChamadoInserido.length()>0){
+                Chamado chamado = ChamadoDAO.pesquisarChamado(Integer.parseInt(codChamadoInserido));
+                if(chamado==null){
+                    codChamadoField.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+                }else{
+                    codChamadoField.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                }
+                return;
+            }
+            codChamadoField.setBorder(UIManager.getBorder("TextField.border"));
         }
 }
