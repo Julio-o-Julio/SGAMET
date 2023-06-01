@@ -24,7 +24,7 @@ public class AgendamentoVisita {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
-        this.situacao = "Atendido";
+        this.situacao = "Pendente";
         this.funcionario = funcionario;
         this.chamado = chamado;
     }

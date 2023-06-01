@@ -39,10 +39,9 @@ public class HorarioValidador{
     }
     public static LocalDateTime getValor(JFormattedTextField horarioField) {
         try {
-            DateTimeFormatter formatador = DateTimeFormatter.ofPattern(
-                    ((MaskFormatter) horarioField.getFormatter()).getMask()
-            );
-            return LocalDateTime.parse(horarioField.getText(), formatador);
+            System.out.println(((MaskFormatter) horarioField.getFormatter()).getMask());
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("ddMMyyyyHHmm");
+            return LocalDateTime.parse(horarioField.getText().replaceAll("[^\\d]",""), formatador);
         }catch (Exception err){
             err.printStackTrace();
             return null;

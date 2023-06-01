@@ -62,6 +62,7 @@ public class AgendamentoView extends JFrame{
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/#### - ##h:##m", 'X'));
         JComboBox<String> situacao = new JComboBox<>(situacoes);
+        situacao.setSelectedIndex(0);
 
         JButton btnAgendar = new JButton("Agendar");
         JButton btnAtualizar = new JButton("Atualizar");
