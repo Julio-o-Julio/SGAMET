@@ -75,7 +75,7 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             }
             Chamado chamado = AgendamentoController.buscarChamado(codChamado);
 
-            int matriculaFuncionario = Integer.parseInt(matriculaFuncionarioField.getText());
+            int matriculaFuncionario = Integer.parseInt(matriculaFuncionarioField.getText().replaceAll("[^\\d]",""));
             if(!AgendamentoController.existeFuncionario(matriculaFuncionario)){
                 Mensagem.showError("Nenhum funcionário pôde ser encontrado a partir da matrícula informada");
                 return;
