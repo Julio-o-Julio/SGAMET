@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class AgendamentoView extends JFrame{
+public class AgendamentoView extends JPanel{
     private static void restringirParaInteiro(JTextField textField) {
         textField.setDocument(new PlainDocument() {
             @Override
@@ -50,7 +50,7 @@ public class AgendamentoView extends JFrame{
         formItemPanel.add(child);
         return formItemPanel;
     }
-    public AgendamentoView(String titulo, Dimension tamanho) {
+    public AgendamentoView() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
         Dimension halfFieldDimension = new Dimension(200, 40);
@@ -106,10 +106,7 @@ public class AgendamentoView extends JFrame{
         btnsPanel.add(btnAtualizar);
         btnsPanel.add(btnCancelar);
 
-        this.setTitle(titulo);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setSize(tamanho);
+        this.setLayout(new GridLayout());
 
         contentPanel.add(codChamadoPanel);
         contentPanel.add(nomePanel);
