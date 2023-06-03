@@ -85,7 +85,14 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             String nomeRes = nomeField.getText();
             String telefoneRes = telefoneField.getText();
             LocalDateTime horario = HorarioValidador.getValor(horarioField);
-            AgendamentoController.registrarAgendamento(chamado, horario, funcionario, nomeRes, telefoneRes); 
+            if(AgendamentoController.consultaDisponibilidadeHorarios(funcionario.getNroMatricula(), horario)){
+                AgendamentoController.registrarAgendamento(chamado, horario, funcionario, nomeRes, telefoneRes);
+            }else{
+                Mensagem.showError(String.format(
+                        "Horário indisponível para o funcionário %s (Mat. %d)",
+                        funcionario.getNome(), funcionario.getNroMatricula()
+                ));
+            }
         }
         else if(e.getSource().equals(btnAtualizar)){
             System.out.println("Atualizado!!");
