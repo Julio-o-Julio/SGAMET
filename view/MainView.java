@@ -56,6 +56,7 @@ public class MainView extends JFrame {
     public MainView(String title, Dimension size){
         this.setTitle(title);
         this.setSize(size);
+        this.setResizable(false);
         JTabbedPane mainPane = new JTabbedPane();
         ManagerPane welcomeView = new ManagerPane(mainPane);
         mainPane.addTab("Home",welcomeView);

@@ -18,19 +18,24 @@ import static view.ViewUtils.*;
 
 public class VisitaPane extends JPanel{
     private JPanel genAgdtoItemPane(AgendamentoVisita agdto){
+        JPanel itemContainer = new JPanel();
+        itemContainer.setPreferredSize(new Dimension(300, 50));
+
         JPanel agdtoItemPane = new JPanel();
-        agdtoItemPane.setLayout(new GridBagLayout());
         agdtoItemPane.setPreferredSize(new Dimension(300, 50));
-        GridBagConstraints constraint = new GridBagConstraints();
-        constraint.gridy=0;
-        constraint.gridx=0;
+        agdtoItemPane.setLayout(new GridBagLayout());
+        agdtoItemPane.setBackground(Color.BLUE);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy=0;
+        constraints.gridx=0;
 
         LocalDateTime horaAgendamento = agdto.getHorario();
         String horaFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("hh:mm"));
         JLabel hora = new JLabel(horaFormatada);
         agdtoItemPane.add(hora);
 
-        return agdtoItemPane;
+        itemContainer.add(agdtoItemPane);
+        return itemContainer;
     }
     public VisitaPane() {
         super();
@@ -39,9 +44,6 @@ public class VisitaPane extends JPanel{
         JTextField codChamadoField = new JTextField();
         restringirParaInteiro(codChamadoField);
 
-
-        JButton btnAgendar = new JButton("Agendar");
-        JButton btnAtualizar = new JButton("Atualizar");
         JButton btnCancelar = new JButton("Cancelar");
 
         codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));
@@ -55,18 +57,18 @@ public class VisitaPane extends JPanel{
         });
 
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
-
         JPanel listContainer = new JPanel();
-        listContainer.setLayout(new BoxLayout(listContainer,BoxLayout.Y_AXIS));
+        JPanel listPane = new JPanel();
+//        listPane.setLayout(new GridBagLayout());
+        listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
+
+
         AgendamentoVisita mock = new AgendamentoVisita(LocalDateTime.now(), "As", "111111111", new Chamado(1, "1", "1","11"), new Funcionario(1, "as", "as", "as", "as", "as", "as", new ArrayList<LocalDateTime>()));
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
         JPanel btnsPanel = new JPanel();
-        GridLayout layoutBtnPane = new GridLayout(1, 3);
-        layoutBtnPane.setHgap(5);
-
+        FlowLayout layoutBtnPane = new FlowLayout();
         btnsPanel.setLayout(layoutBtnPane);
-        btnsPanel.add(btnAgendar);
-        btnsPanel.add(btnAtualizar);
+        btnsPanel.setPreferredSize(new Dimension(500, 40));
         btnsPanel.add(btnCancelar);
 
         this.setLayout(new FlowLayout());
@@ -74,52 +76,57 @@ public class VisitaPane extends JPanel{
         contentPanel.add(codChamadoPanel);
         contentPanel.add(new JSeparator());
         this.add(contentPanel);
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
 
-        listContainer.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
 
-        listContainer.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
 
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
-        listContainer.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
+        listPane.add(genAgdtoItemPane(mock));
 
 
+
+
+
+
+
+
+        listContainer.add(listPane);
         JScrollPane scrollAgdto = new JScrollPane(listContainer);
         scrollAgdto.setPreferredSize(new Dimension(350, 300));
         this.add(scrollAgdto);
         this.add(btnsPanel);
-
-
 
         this.setVisible(true);
     }
