@@ -185,7 +185,7 @@ public class FuncionarioDAO {
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Funcionario WHERE nroMatricula = ?");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM agendamentovisita WHERE codFunc = ?");
 			
 			prepSt.setInt(1, nroMatricula);
 			

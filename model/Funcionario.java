@@ -22,7 +22,7 @@ public class Funcionario {
     this.estado = estado;
     this.cidade = cidade;
     this.telefone = telefone;
-    this.horAgendados = new ArrayList<>();
+    this.horAgendados = horAgendados;
   }
 
   public int getNroMatricula() {
