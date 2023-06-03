@@ -4,47 +4,19 @@ import model.AgendamentoVisita;
 import model.Chamado;
 import model.Funcionario;
 import view.actions.AgendamentoCodChamadoActions;
+import view.actions.VisitaCodChamadoActions;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static view.ViewUtils.*;
 
 
 public class VisitaPane extends JPanel{
-    private JPanel genAgdtoItemPane(AgendamentoVisita agdto){
-        JPanel itemContainer = new JPanel(new FlowLayout());
-        itemContainer.setPreferredSize(new Dimension(300, 50));
 
-        JPanel agdtoItemPane = new JPanel();
-        agdtoItemPane.setPreferredSize(new Dimension(300, 50));
-        agdtoItemPane.setLayout(new BoxLayout(agdtoItemPane, BoxLayout.LINE_AXIS));
-        agdtoItemPane.setBackground(Color.LIGHT_GRAY);
-
-        LocalDateTime horaAgendamento = agdto.getHorario();
-        String horaFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("hh:mm"));
-        String dataFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        JLabel hora = new JLabel(horaFormatada);
-        JLabel data = new JLabel(dataFormatada);
-        JLabel atendente = new JLabel(agdto.getFuncionario().getNome());
-        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
-        Box verticalBox = Box.createVerticalBox();
-        verticalBox.add(data);
-        verticalBox.add(hora);
-        agdtoItemPane.add(verticalBox);
-        agdtoItemPane.add(Box.createHorizontalGlue());
-        agdtoItemPane.add(atendente);
-        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
-
-
-        itemContainer.add(agdtoItemPane);
-        return itemContainer;
-    }
     public VisitaPane() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
@@ -54,7 +26,6 @@ public class VisitaPane extends JPanel{
 
         JButton btnCancelar = new JButton("Cancelar");
 
-        codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));
         VisitaPane selfReference = this;
         btnCancelar.addActionListener(new ActionListener() {
             @Override
@@ -84,15 +55,16 @@ public class VisitaPane extends JPanel{
         contentPanel.add(codChamadoPanel);
         contentPanel.add(new JSeparator());
         this.add(contentPanel);
-
-        listPane.add(genAgdtoItemPane(mock));
-
         listContainer.add(listPane);
         JScrollPane scrollAgdto = new JScrollPane(listContainer);
         scrollAgdto.setPreferredSize(new Dimension(350, 300));
         this.add(scrollAgdto);
         this.add(btnsPanel);
 
+        codChamadoField.addFocusListener(new VisitaCodChamadoActions(codChamadoField, listPane));
+//        codChamadoField.addKeyListener(new KeyAdapter() {
+//        });
         this.setVisible(true);
+        this.requestFocus();
     }
 }
