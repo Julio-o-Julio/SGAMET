@@ -18,21 +18,29 @@ import static view.ViewUtils.*;
 
 public class VisitaPane extends JPanel{
     private JPanel genAgdtoItemPane(AgendamentoVisita agdto){
-        JPanel itemContainer = new JPanel();
+        JPanel itemContainer = new JPanel(new FlowLayout());
         itemContainer.setPreferredSize(new Dimension(300, 50));
 
         JPanel agdtoItemPane = new JPanel();
         agdtoItemPane.setPreferredSize(new Dimension(300, 50));
-        agdtoItemPane.setLayout(new GridBagLayout());
-        agdtoItemPane.setBackground(Color.BLUE);
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridy=0;
-        constraints.gridx=0;
+        agdtoItemPane.setLayout(new BoxLayout(agdtoItemPane, BoxLayout.LINE_AXIS));
+        agdtoItemPane.setBackground(Color.LIGHT_GRAY);
 
         LocalDateTime horaAgendamento = agdto.getHorario();
         String horaFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("hh:mm"));
+        String dataFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         JLabel hora = new JLabel(horaFormatada);
-        agdtoItemPane.add(hora);
+        JLabel data = new JLabel(dataFormatada);
+        JLabel atendente = new JLabel(agdto.getFuncionario().getNome());
+        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
+        Box verticalBox = Box.createVerticalBox();
+        verticalBox.add(data);
+        verticalBox.add(hora);
+        agdtoItemPane.add(verticalBox);
+        agdtoItemPane.add(Box.createHorizontalGlue());
+        agdtoItemPane.add(atendente);
+        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
+
 
         itemContainer.add(agdtoItemPane);
         return itemContainer;
@@ -78,49 +86,6 @@ public class VisitaPane extends JPanel{
         this.add(contentPanel);
 
         listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-        listPane.add(genAgdtoItemPane(mock));
-
-
-
-
-
-
-
 
         listContainer.add(listPane);
         JScrollPane scrollAgdto = new JScrollPane(listContainer);
