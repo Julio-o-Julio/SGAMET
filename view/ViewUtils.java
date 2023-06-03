@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ViewUtils {
+
     public static void restringirParaInteiro(JTextField textField) {
         PlainDocument pd = (PlainDocument) textField.getDocument();
         pd.setDocumentFilter(new DocumentFilter() {
@@ -31,7 +32,7 @@ public class ViewUtils {
         textField.setDocument(pd);
     }
 
-    public static MaskFormatter criarMascara(String formato, char placeholder){
+    public static MaskFormatter criarMascara(String formato, char placeholder) {
         MaskFormatter mascara = new MaskFormatter();
         try {
             mascara.setMask(formato);
@@ -41,6 +42,7 @@ public class ViewUtils {
         }
         return mascara;
     }
+
     public static JPanel criarItemPanel(String title, JComponent child, Dimension tam) {
 
         JPanel formItemPanel = new JPanel();
@@ -53,7 +55,8 @@ public class ViewUtils {
         formItemPanel.add(child);
         return formItemPanel;
     }
-    public static JPanel genAgdtoItemPane(AgendamentoVisita agdto){
+
+    public static JPanel genAgdtoItemPane(AgendamentoVisita agdto) {
         JPanel itemContainer = new JPanel(new FlowLayout());
         itemContainer.setPreferredSize(new Dimension(300, 50));
 
@@ -67,15 +70,24 @@ public class ViewUtils {
         String dataFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         JLabel hora = new JLabel(horaFormatada);
         JLabel data = new JLabel(dataFormatada);
-        JLabel atendente = new JLabel(agdto.getFuncionario().getNome());
-        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
+        String situacaoAgendamento = agdto.getSituacao();
+        String acaoTitle = "";
+        if (situacaoAgendamento.equals(AgendamentoVisita.STATUS.PENDENTE))
+            acaoTitle = "Realizar";
+        else if (situacaoAgendamento.equals(AgendamentoVisita.STATUS.EM_ATENDIMENTO))
+            acaoTitle = "Finalizar";
+        JButton actionBtn = new JButton(acaoTitle);
+        agdtoItemPane.add(Box.createRigidArea(new Dimension(10, 50)));
         Box verticalBox = Box.createVerticalBox();
         verticalBox.add(data);
         verticalBox.add(hora);
         agdtoItemPane.add(verticalBox);
         agdtoItemPane.add(Box.createHorizontalGlue());
-        agdtoItemPane.add(atendente);
-        agdtoItemPane.add(Box.createRigidArea(new Dimension(10,50)));
+        if (!situacaoAgendamento.equals(AgendamentoVisita.STATUS.REALIZADA)
+                && !situacaoAgendamento.equals(AgendamentoVisita.STATUS.CANCELADA)){
+            agdtoItemPane.add(actionBtn);
+        }
+        agdtoItemPane.add(Box.createRigidArea(new Dimension(10, 50)));
 
 
         itemContainer.add(agdtoItemPane);
