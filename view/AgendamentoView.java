@@ -5,55 +5,17 @@ import view.actions.AgendamentoMatriFuncioActions;
 import view.actions.AgendamentoViewCRUDactions;
 
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.MaskFormatter;
-
-import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static view.ViewUtils.*;
+
 
 public class AgendamentoView extends JPanel{
-    private static void restringirParaInteiro(JTextField textField) {
-        textField.setDocument(new PlainDocument() {
-            @Override
-            public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-                if (str != null) {
-                    if(str.matches("[\\d]"))
-                        super.insertString(offset, str, attr);
-                }
-            }
-        });
-    }
-
-    private MaskFormatter criarMascara(String formato, char placeholder){
-        MaskFormatter mascara = new MaskFormatter();
-        try {
-            mascara.setMask(formato);
-            mascara.setPlaceholderCharacter(placeholder);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return mascara;
-    }
-    private static JPanel criarItemPanel(String title, JComponent child, Dimension tam) {
-
-        JPanel formItemPanel = new JPanel();
-        GridLayout gl = new GridLayout(0, 2);
-        formItemPanel.setLayout(gl);
-        formItemPanel.setPreferredSize(tam);
-        JLabel titleLabel = new JLabel(title);
-
-        formItemPanel.add(titleLabel);
-        formItemPanel.add(child);
-        return formItemPanel;
-    }
     public AgendamentoView() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
-        Dimension halfFieldDimension = new Dimension(200, 40);
 
         String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
