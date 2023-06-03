@@ -1,16 +1,10 @@
 package view;
 
-import model.AgendamentoVisita;
-import model.Chamado;
-import model.Funcionario;
-import view.actions.AgendamentoCodChamadoActions;
 import view.actions.VisitaCodChamadoActions;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static view.ViewUtils.*;
 
@@ -26,13 +20,9 @@ public class VisitaPane extends JPanel{
 
         JButton btnCancelar = new JButton("Cancelar");
 
-        VisitaPane selfReference = this;
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JTabbedPane jtPane = ((JTabbedPane) selfReference.getParent());
-                jtPane.remove(selfReference);
-            }
+        btnCancelar.addActionListener(e -> {
+            JTabbedPane jtPane = ((JTabbedPane) this.getParent());
+            jtPane.remove(this);
         });
 
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
@@ -41,8 +31,6 @@ public class VisitaPane extends JPanel{
 //        listPane.setLayout(new GridBagLayout());
         listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
 
-
-        AgendamentoVisita mock = new AgendamentoVisita(LocalDateTime.now(), "As", "111111111", new Chamado(1, "1", "1","11"), new Funcionario(1, "as", "as", "as", "as", "as", "as", new ArrayList<LocalDateTime>()));
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
         JPanel btnsPanel = new JPanel();
         FlowLayout layoutBtnPane = new FlowLayout();
@@ -62,8 +50,19 @@ public class VisitaPane extends JPanel{
         this.add(btnsPanel);
 
         codChamadoField.addFocusListener(new VisitaCodChamadoActions(codChamadoField, listPane));
-//        codChamadoField.addKeyListener(new KeyAdapter() {
-//        });
+
+        codChamadoField.addActionListener(e -> {
+            if (e.getModifiers() == 0 && e.getID() == ActionEvent.ACTION_PERFORMED) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
+                codChamadoField.requestFocus();
+            }
+        });
+        scrollAgdto.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
+            }
+        });
         this.setVisible(true);
         this.requestFocus();
     }

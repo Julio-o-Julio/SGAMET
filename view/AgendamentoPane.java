@@ -6,8 +6,6 @@ import view.actions.AgendamentoViewCRUDactions;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static view.ViewUtils.*;
 
@@ -39,13 +37,10 @@ public class AgendamentoPane extends JPanel{
         matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
         btnAtualizar.addActionListener(actionListenerCrud);
-        AgendamentoPane selfReference = this;
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JTabbedPane jtPane = ((JTabbedPane) selfReference.getParent());
-                jtPane.remove(selfReference);
-            }
+
+        btnCancelar.addActionListener(e -> {
+            JTabbedPane jtPane = ((JTabbedPane) this.getParent());
+            jtPane.remove(this);
         });
 
         JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionarioField, defaultFieldDimension);
@@ -74,8 +69,6 @@ public class AgendamentoPane extends JPanel{
         contentPanel.add(horarioPanel);
         //contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
         contentPanel.add(new JSeparator());
-
-
 
         contentPanel.add(btnsPanel);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
