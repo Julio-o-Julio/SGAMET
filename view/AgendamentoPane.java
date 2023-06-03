@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 import static view.ViewUtils.*;
 
 
-public class AgendamentoView extends JPanel{
-    public AgendamentoView() {
+public class AgendamentoPane extends JPanel{
+    public AgendamentoPane() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
 
@@ -44,7 +44,7 @@ public class AgendamentoView extends JPanel{
         matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
         btnAtualizar.addActionListener(actionListenerCrud);
-        AgendamentoView selfReference = this;
+        AgendamentoPane selfReference = this;
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 
 class ManagerPane extends JPanel{
@@ -20,7 +19,7 @@ class ManagerPane extends JPanel{
                 tabPanel.setSelectedIndex(idxPaneDesejado);
                 return;
             }
-            tabPanel.addTab("Realizar agendamento", new AgendamentoView());
+            tabPanel.addTab("Realizar agendamento", new AgendamentoPane());
             tabPanel.setSelectedIndex(tabPanel.getTabCount()-1);
         });
 
