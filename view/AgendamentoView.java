@@ -44,10 +44,12 @@ public class AgendamentoView extends JPanel{
         matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
         btnAtualizar.addActionListener(actionListenerCrud);
+        AgendamentoView selfReference = this;
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                JTabbedPane jtPane = ((JTabbedPane) selfReference.getParent());
+                jtPane.remove(selfReference);
             }
         });
 

@@ -17,7 +17,7 @@ class ManagerPane extends JPanel{
         realizarAgdto.addActionListener(e->{
             int idxPaneDesejado = tabPanel.indexOfTab("Realizar agendamento");
             if(idxPaneDesejado != -1){
-                tabPanel.remove(idxPaneDesejado);
+                tabPanel.setSelectedIndex(idxPaneDesejado);
                 return;
             }
             tabPanel.addTab("Realizar agendamento", new AgendamentoView());
