@@ -16,8 +16,6 @@ public class AgendamentoPane extends JPanel{
     public AgendamentoPane() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
-
-        String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
         JTextField codChamadoField = new JTextField();
         JTextField matriculaFuncionarioField = new JTextField();
@@ -25,8 +23,6 @@ public class AgendamentoPane extends JPanel{
         restringirParaInteiro(matriculaFuncionarioField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/#### - ##h:##m", 'X'));
-        JComboBox<String> situacao = new JComboBox<>(situacoes);
-        situacao.setSelectedIndex(0);
 
         JButton btnAgendar = new JButton("Agendar");
         JButton btnAtualizar = new JButton("Atualizar");
@@ -37,7 +33,6 @@ public class AgendamentoPane extends JPanel{
                 matriculaFuncionarioField,
                 telefoneField,
                 horarioField,
-                situacao,
                 btnAgendar,
                 btnAtualizar);
         codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));

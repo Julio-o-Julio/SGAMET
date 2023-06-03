@@ -28,7 +28,6 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             JTextField matriculaFuncionarioField,
             JFormattedTextField telefoneField,
             JFormattedTextField horarioField,
-            JComboBox<String> situacao,
             JButton btnAgendar,
             JButton btnAtualizar
     ) {

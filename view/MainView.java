@@ -23,6 +23,15 @@ class ManagerPane extends JPanel{
             tabPanel.setSelectedIndex(tabPanel.getTabCount()-1);
         });
 
+        regVisita.addActionListener(e->{
+            int idxPaneDesejado = tabPanel.indexOfTab("Registrar visita");
+            if(idxPaneDesejado != -1){
+                tabPanel.setSelectedIndex(idxPaneDesejado);
+                return;
+            }
+            tabPanel.addTab("Registrar visita", new VisitaPane());
+            tabPanel.setSelectedIndex(tabPanel.getTabCount()-1);
+        });
         JPanel btnsPanel = new JPanel();
         btnsPanel.add(realizarAgdto);
         btnsPanel.add(regVisita);
