@@ -1,6 +1,7 @@
 package view;
 
 import model.AgendamentoVisita;
+import persistence.AgendamentoVisitaDAO;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -84,7 +85,23 @@ public class ViewUtils {
         agdtoItemPane.add(verticalBox);
         agdtoItemPane.add(Box.createHorizontalGlue());
         if (!situacaoAgendamento.equals(AgendamentoVisita.STATUS.REALIZADA)
-                && !situacaoAgendamento.equals(AgendamentoVisita.STATUS.CANCELADA)){
+                && !situacaoAgendamento.equals(AgendamentoVisita.STATUS.CANCELADA)) {
+
+            actionBtn.addActionListener(e -> {
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
+                System.out.println(agdto.getSituacao());
+                if(actionBtn.getText().equals("Realizar")){
+                    agdto.setSituacao(AgendamentoVisita.STATUS.EM_ATENDIMENTO);
+                    if(AgendamentoVisitaDAO.inserirChamado(agdto)){
+                        actionBtn.setText("Finalizar");
+                        itemContainer.revalidate();
+                        itemContainer.repaint();
+                    }
+                }else{
+                    System.out.println("FINAAAAAL");
+                }
+            });
+
             agdtoItemPane.add(actionBtn);
         }
         agdtoItemPane.add(Box.createRigidArea(new Dimension(10, 50)));

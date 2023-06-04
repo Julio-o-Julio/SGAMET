@@ -268,17 +268,19 @@ create table if not exists AgendamentoVisita (
 		return agend;
 	}
 
-	public static void inserirChamado(AgendamentoVisita agend){
+	public static boolean inserirChamado(AgendamentoVisita agend){
 		try {
 			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado(), agend.getHorario()) != null){
 				AgendamentoVisitaDAO.update(agend);
 			} else {
 				if(AgendamentoVisitaDAO.insert(agend) >= 1) Mensagem.showSucces("Agendamento realizado com sucesso!");
 			}
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
 	} 
 
 

@@ -14,7 +14,6 @@ public class VisitaPane extends JPanel{
     public VisitaPane() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
-        String[] situacoes = {"Pendente", "Em atendimento", "Atendido", "Cancelado"};
         JTextField codChamadoField = new JTextField();
         restringirParaInteiro(codChamadoField);
 
@@ -54,7 +53,6 @@ public class VisitaPane extends JPanel{
         codChamadoField.addActionListener(e -> {
             if (e.getModifiers() == 0 && e.getID() == ActionEvent.ACTION_PERFORMED) {
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
-                codChamadoField.requestFocus();
             }
         });
         scrollAgdto.addMouseListener(new MouseAdapter() {
