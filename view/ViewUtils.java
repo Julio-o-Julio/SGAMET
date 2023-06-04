@@ -10,7 +10,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ViewUtils {
-
+    public static final Color COR_PENDENTE = Color.lightGray;
+    public static final Color COR_EM_ATENDIMENTO = new Color(201, 188, 139);
+    public static final Color COR_REALIZADA = new Color(130, 188, 144);
+    public static final Color COR_CANCELADA = new Color(204, 153, 153);
     public static void restringirParaInteiro(JTextField textField) {
         PlainDocument pd = (PlainDocument) textField.getDocument();
         pd.setDocumentFilter(new DocumentFilter() {
@@ -65,6 +68,7 @@ public class ViewUtils {
         agdtoItemPane.setPreferredSize(new Dimension(300, 50));
         agdtoItemPane.setLayout(new BoxLayout(agdtoItemPane, BoxLayout.LINE_AXIS));
         agdtoItemPane.setBackground(Color.LIGHT_GRAY);
+        agdtoItemPane.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
         LocalDateTime horaAgendamento = agdto.getHorario();
         String horaFormatada = horaAgendamento.format(DateTimeFormatter.ofPattern("hh:mm"));
@@ -73,10 +77,18 @@ public class ViewUtils {
         JLabel data = new JLabel(dataFormatada);
         String situacaoAgendamento = agdto.getSituacao();
         String acaoTitle = "";
-        if (situacaoAgendamento.equals(AgendamentoVisita.STATUS.PENDENTE))
+        if (situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.PENDENTE)){
             acaoTitle = "Realizar";
-        else if (situacaoAgendamento.equals(AgendamentoVisita.STATUS.EM_ATENDIMENTO))
+            agdtoItemPane.setBackground(COR_PENDENTE);
+        }
+        else if (situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.EM_ATENDIMENTO)){
             acaoTitle = "Finalizar";
+            agdtoItemPane.setBackground(COR_EM_ATENDIMENTO);
+        }else if(situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.CANCELADA)){
+            agdtoItemPane.setBackground(COR_CANCELADA);
+        }else if(situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.REALIZADA)){
+            agdtoItemPane.setBackground(COR_REALIZADA);
+        }
         JButton actionBtn = new JButton(acaoTitle);
         agdtoItemPane.add(Box.createRigidArea(new Dimension(10, 50)));
         Box verticalBox = Box.createVerticalBox();
@@ -84,8 +96,8 @@ public class ViewUtils {
         verticalBox.add(hora);
         agdtoItemPane.add(verticalBox);
         agdtoItemPane.add(Box.createHorizontalGlue());
-        if (!situacaoAgendamento.equals(AgendamentoVisita.STATUS.REALIZADA)
-                && !situacaoAgendamento.equals(AgendamentoVisita.STATUS.CANCELADA)) {
+        if (!situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.REALIZADA)
+                && !situacaoAgendamento.equals(AgendamentoVisita.SITUACAO.CANCELADA)) {
 
             actionBtn.addActionListener(e -> {
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
@@ -106,10 +118,11 @@ public class ViewUtils {
                     }
                     if(limiteSuperior.isBefore(LocalDateTime.now())){
                         Mensagem.showError("A visita selecionada já não pode ser realizada.\nPor favor, realize novo agendamento.");
-                        agdto.setSituacao(AgendamentoVisita.STATUS.CANCELADA);
+                        agdto.setSituacao(AgendamentoVisita.SITUACAO.CANCELADA);
                         if(AgendamentoVisitaDAO.inserirChamado(agdto)){
                             actionBtn.setVisible(false);
                             agdtoItemPane.remove(actionBtn);
+                            agdtoItemPane.setBackground(COR_CANCELADA);
                             agdtoItemPane.revalidate();
                             agdtoItemPane.repaint();
                         }else{
@@ -118,14 +131,15 @@ public class ViewUtils {
                         }
                         return;
                     }
-                    agdto.setSituacao(AgendamentoVisita.STATUS.EM_ATENDIMENTO);
+                    agdto.setSituacao(AgendamentoVisita.SITUACAO.EM_ATENDIMENTO);
                     if(AgendamentoVisitaDAO.inserirChamado(agdto)){
                         actionBtn.setText("Finalizar");
+                        agdtoItemPane.setBackground(COR_EM_ATENDIMENTO);
                         itemContainer.revalidate();
                         itemContainer.repaint();
                     }
                 }else{
-                    System.out.println("FINAAAAAL");
+                    new DescricaoVisitaView(new Dimension(500, 500), actionBtn, agdtoItemPane, agdto);
                 }
             });
 
