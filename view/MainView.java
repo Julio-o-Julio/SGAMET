@@ -55,7 +55,7 @@ class ManagerPane extends JPanel{
 public class MainView extends JFrame {
     public MainView(String title, Dimension size){
         this.setTitle(title);
-        this.setSize(size);
+        this.setPreferredSize(size);
         this.setResizable(false);
         JTabbedPane mainPane = new JTabbedPane();
         ManagerPane welcomeView = new ManagerPane(mainPane);
@@ -63,6 +63,7 @@ public class MainView extends JFrame {
 //        this.add(new JLabel("AAAAAA"));
 //
 //        mainPane.addTab("Realizar agendamento", new AgendamentoView(title,size));
+        this.pack();
         this.add(mainPane);
         this.setVisible(true);
     }

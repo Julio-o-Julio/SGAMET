@@ -189,7 +189,7 @@ public class FuncionarioDAO {
 			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM agendamentovisita WHERE codFunc = ? AND situacao = ?");
 			
 			prepSt.setInt(1, nroMatricula);
-			prepSt.setString(2, AgendamentoVisita.STATUS.PENDENTE);
+			prepSt.setString(2, AgendamentoVisita.SITUACAO.PENDENTE);
 			
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {

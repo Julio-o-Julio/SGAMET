@@ -39,7 +39,7 @@ public class VisitaCodChamadoActions implements FocusListener {
                     this.listPanel.removeAll();
                     ArrayList<AgendamentoVisita> listaAgendamentos = AgendamentoVisitaDAO.pesquisarAgtVisita(chamado.getCodChamado());
                     listaAgendamentos.sort(Comparator
-                            .comparing((AgendamentoVisita o) -> o.getSituacao().equals(AgendamentoVisita.STATUS.CANCELADA))
+                            .comparing((AgendamentoVisita o) -> o.getSituacao().equals(AgendamentoVisita.SITUACAO.CANCELADA))
                             .thenComparing(AgendamentoVisita::getSituacao));
                     listaAgendamentos.forEach(agendamentoVisita ->{
                         this.listPanel.add(genAgdtoItemPane(agendamentoVisita));
