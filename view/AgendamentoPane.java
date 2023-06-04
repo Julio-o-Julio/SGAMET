@@ -36,7 +36,6 @@ public class AgendamentoPane extends JPanel{
         codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));
         matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
-        btnAtualizar.addActionListener(actionListenerCrud);
 
         btnCancelar.addActionListener(e -> {
             JTabbedPane jtPane = ((JTabbedPane) this.getParent());
@@ -57,7 +56,6 @@ public class AgendamentoPane extends JPanel{
 
         btnsPanel.setLayout(layoutBtnPane);
         btnsPanel.add(btnAgendar);
-        btnsPanel.add(btnAtualizar);
         btnsPanel.add(btnCancelar);
 
         this.setLayout(new GridLayout());
@@ -67,7 +65,6 @@ public class AgendamentoPane extends JPanel{
         contentPanel.add(telefonePanel);
         contentPanel.add(matriculaFuncio);
         contentPanel.add(horarioPanel);
-        //contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
         contentPanel.add(new JSeparator());
 
         contentPanel.add(btnsPanel);

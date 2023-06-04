@@ -67,8 +67,4 @@ public class MainView extends JFrame {
         this.add(mainPane);
         this.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        new MainView("SGAMET", new Dimension(500,500));
-    }
 }
