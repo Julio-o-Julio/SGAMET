@@ -91,6 +91,33 @@ public class ViewUtils {
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
                 System.out.println(agdto.getSituacao());
                 if(actionBtn.getText().equals("Realizar")){
+                    LocalDateTime limiteInferior = agdto.getHorario().minusHours(1);
+                    LocalDateTime limiteSuperior = agdto.getHorario().plusHours(1);
+                    if(limiteInferior.isAfter(LocalDateTime.now())){
+                        Mensagem.showError(
+                                String.format(
+                                        "A realização da visita não pode ser iniciada antes de %s às %sh%sm.",
+                                        limiteInferior.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                        limiteInferior.format(DateTimeFormatter.ofPattern("hh")),
+                                        limiteInferior.format(DateTimeFormatter.ofPattern("mm"))
+                                )
+                        );
+                        return;
+                    }
+                    if(limiteSuperior.isBefore(LocalDateTime.now())){
+                        Mensagem.showError("A visita selecionada já não pode ser realizada.\nPor favor, realize novo agendamento.");
+                        agdto.setSituacao(AgendamentoVisita.STATUS.CANCELADA);
+                        if(AgendamentoVisitaDAO.inserirChamado(agdto)){
+                            actionBtn.setVisible(false);
+                            agdtoItemPane.remove(actionBtn);
+                            agdtoItemPane.revalidate();
+                            agdtoItemPane.repaint();
+                        }else{
+                            Mensagem.showError("Erro ao atualizar status do chamado.");
+                            actionBtn.setEnabled(false);
+                        }
+                        return;
+                    }
                     agdto.setSituacao(AgendamentoVisita.STATUS.EM_ATENDIMENTO);
                     if(AgendamentoVisitaDAO.inserirChamado(agdto)){
                         actionBtn.setText("Finalizar");
