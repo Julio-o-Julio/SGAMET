@@ -10,7 +10,7 @@ public class AgendamentoVisita {
 
     private Chamado chamado;
     private Funcionario funcionario;
-    public final static class STATUS{
+    public final static class SITUACAO {
         public final static String PENDENTE = "Pendente";
         public final static String EM_ATENDIMENTO = "Em atendimento";
         public final static String REALIZADA = "Realizada";
@@ -30,7 +30,7 @@ public class AgendamentoVisita {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
-        this.situacao = STATUS.PENDENTE;
+        this.situacao = SITUACAO.PENDENTE;
         this.funcionario = funcionario;
         this.chamado = chamado;
     }
