@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static view.ViewUtils.genAgdtoItemPane;
 
@@ -37,6 +38,9 @@ public class VisitaCodChamadoActions implements FocusListener {
                     codChamadoField.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
                     this.listPanel.removeAll();
                     ArrayList<AgendamentoVisita> listaAgendamentos = AgendamentoVisitaDAO.pesquisarAgtVisita(chamado.getCodChamado());
+                    listaAgendamentos.sort(Comparator
+                            .comparing((AgendamentoVisita o) -> o.getSituacao().equals(AgendamentoVisita.STATUS.CANCELADA))
+                            .thenComparing(AgendamentoVisita::getSituacao));
                     listaAgendamentos.forEach(agendamentoVisita ->{
                         this.listPanel.add(genAgdtoItemPane(agendamentoVisita));
                     });
