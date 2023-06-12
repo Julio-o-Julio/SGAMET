@@ -69,7 +69,7 @@ public class DescricaoVisitaView extends JFrame {
             String descChamado = descField.getText();
             if(descChamado.length()>0){
                 this.agdtoOrigem.setSituacao(AgendamentoVisita.SITUACAO.REALIZADA);
-                if (AgendamentoVisitaDAO.inserirChamado(this.agdtoOrigem)) {
+                if (AgendamentoVisitaDAO.inserirAgendamentoChamado(this.agdtoOrigem)) {
                     this.btnOrigem.setVisible(false);
                     this.panelOrigem.remove(this.btnOrigem);
                     this.panelOrigem.setBackground(ViewUtils.COR_REALIZADA);

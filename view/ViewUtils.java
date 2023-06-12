@@ -119,7 +119,7 @@ public class ViewUtils {
                     if(limiteSuperior.isBefore(LocalDateTime.now())){
                         Mensagem.showError("A visita selecionada já não pode ser realizada.\nPor favor, realize novo agendamento.");
                         agdto.setSituacao(AgendamentoVisita.SITUACAO.CANCELADA);
-                        if(AgendamentoVisitaDAO.inserirChamado(agdto)){
+                        if(AgendamentoVisitaDAO.inserirAgendamentoChamado(agdto)){
                             actionBtn.setVisible(false);
                             agdtoItemPane.remove(actionBtn);
                             agdtoItemPane.setBackground(COR_CANCELADA);
@@ -132,7 +132,7 @@ public class ViewUtils {
                         return;
                     }
                     agdto.setSituacao(AgendamentoVisita.SITUACAO.EM_ATENDIMENTO);
-                    if(AgendamentoVisitaDAO.inserirChamado(agdto)){
+                    if(AgendamentoVisitaDAO.inserirAgendamentoChamado(agdto)){
                         actionBtn.setText("Finalizar");
                         agdtoItemPane.setBackground(COR_EM_ATENDIMENTO);
                         itemContainer.revalidate();
