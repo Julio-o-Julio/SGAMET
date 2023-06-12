@@ -268,7 +268,7 @@ create table if not exists AgendamentoVisita (
 		return agend;
 	}
 
-	public static void inserirChamado(AgendamentoVisita agend){
+	public static void inserirAgendamentoChamado(AgendamentoVisita agend){
 		try {
 			if(AgendamentoVisitaDAO.searchQuery(agend.getChamado().getCodChamado(), agend.getHorario()) != null){
 				AgendamentoVisitaDAO.update(agend);
@@ -276,7 +276,6 @@ create table if not exists AgendamentoVisita (
 				if(AgendamentoVisitaDAO.insert(agend) >= 1) Mensagem.showSucces("Agendamento realizado com sucesso!");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	} 

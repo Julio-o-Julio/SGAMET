@@ -46,7 +46,7 @@ public class AgendamentoController {
    public static void registrarAgendamento(Chamado chamado, LocalDateTime horario, Funcionario funcionario, String nomeRes, String telefoneRes) {
        AgendamentoVisita agendamento = new AgendamentoVisita(horario, nomeRes, telefoneRes, chamado, funcionario);
        funcionario.adicionarHorarioAgendado(agendamento.getHorario());
-       AgendamentoVisitaDAO.inserirChamado(agendamento);
+       AgendamentoVisitaDAO.inserirAgendamentoChamado(agendamento);
        FuncionarioDAO.inserirFuncionario(funcionario);
    }
 }
