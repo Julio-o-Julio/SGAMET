@@ -5,57 +5,15 @@ import view.actions.AgendamentoMatriFuncioActions;
 import view.actions.AgendamentoViewCRUDactions;
 
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.MaskFormatter;
-
-import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import static view.ViewUtils.*;
 
 
-public class AgendamentoView extends JFrame{
-    private static void restringirParaInteiro(JTextField textField) {
-        textField.setDocument(new PlainDocument() {
-            @Override
-            public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
-                if (str != null) {
-                    if(str.matches("[\\d]"))
-                        super.insertString(offset, str, attr);
-                }
-            }
-        });
-    }
-
-    private MaskFormatter criarMascara(String formato, char placeholder){
-        MaskFormatter mascara = new MaskFormatter();
-        try {
-            mascara.setMask(formato);
-            mascara.setPlaceholderCharacter(placeholder);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return mascara;
-    }
-    private static JPanel criarItemPanel(String title, JComponent child, Dimension tam) {
-
-        JPanel formItemPanel = new JPanel();
-        GridLayout gl = new GridLayout(0, 2);
-        formItemPanel.setLayout(gl);
-        formItemPanel.setPreferredSize(tam);
-        JLabel titleLabel = new JLabel(title);
-
-        formItemPanel.add(titleLabel);
-        formItemPanel.add(child);
-        return formItemPanel;
-    }
-    public AgendamentoView(String titulo, Dimension tamanho) {
+public class AgendamentoPane extends JPanel{
+    public AgendamentoPane() {
         super();
         Dimension defaultFieldDimension = new Dimension(400, 40);
-        Dimension halfFieldDimension = new Dimension(200, 40);
-
-        String[] situacoes = {"Pendente", "Atendido"};
         JTextField nomeField = new JTextField();
         JTextField codChamadoField = new JTextField();
         JTextField matriculaFuncionarioField = new JTextField();
@@ -63,8 +21,6 @@ public class AgendamentoView extends JFrame{
         restringirParaInteiro(matriculaFuncionarioField);
         JFormattedTextField telefoneField = new JFormattedTextField(criarMascara("(##) # ####-####", 'X'));
         JFormattedTextField horarioField = new JFormattedTextField(criarMascara("##/##/#### - ##h:##m", 'X'));
-        JComboBox<String> situacao = new JComboBox<>(situacoes);
-        situacao.setSelectedIndex(0);
 
         JButton btnAgendar = new JButton("Agendar");
         JButton btnAtualizar = new JButton("Atualizar");
@@ -75,23 +31,20 @@ public class AgendamentoView extends JFrame{
                 matriculaFuncionarioField,
                 telefoneField,
                 horarioField,
-                situacao,
                 btnAgendar,
                 btnAtualizar);
         codChamadoField.addFocusListener(new AgendamentoCodChamadoActions(codChamadoField));
         matriculaFuncionarioField.addFocusListener(new AgendamentoMatriFuncioActions(matriculaFuncionarioField));
         btnAgendar.addActionListener(actionListenerCrud);
-        btnAtualizar.addActionListener(actionListenerCrud);
-        btnCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+
+        btnCancelar.addActionListener(e -> {
+            JTabbedPane jtPane = ((JTabbedPane) this.getParent());
+            jtPane.remove(this);
         });
 
         JPanel matriculaFuncio = criarItemPanel("Matrícula funcionário", matriculaFuncionarioField, defaultFieldDimension);
         JPanel codChamadoPanel = criarItemPanel("Código do chamado:", codChamadoField, defaultFieldDimension);
-        JPanel horarioPanel = criarItemPanel("Horário:", horarioField, defaultFieldDimension);
+        JPanel horarioPanel = criarItemPanel("Data e horário:", horarioField, defaultFieldDimension);
         JPanel nomePanel = criarItemPanel("Nome receptor:", nomeField, defaultFieldDimension);
         JPanel telefonePanel = criarItemPanel("Telefone receptor:", telefoneField, defaultFieldDimension);
         //JPanel situacaoPanel = criarItemPanel("Situação chamado:", situacao, defaultFieldDimension);
@@ -103,23 +56,16 @@ public class AgendamentoView extends JFrame{
 
         btnsPanel.setLayout(layoutBtnPane);
         btnsPanel.add(btnAgendar);
-        btnsPanel.add(btnAtualizar);
         btnsPanel.add(btnCancelar);
 
-        this.setTitle(titulo);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setSize(tamanho);
+        this.setLayout(new GridLayout());
 
         contentPanel.add(codChamadoPanel);
         contentPanel.add(nomePanel);
         contentPanel.add(telefonePanel);
         contentPanel.add(matriculaFuncio);
         contentPanel.add(horarioPanel);
-        //contentPanel.add(situacaoPanel); //TODO: não apresentar em Agendamento!
         contentPanel.add(new JSeparator());
-
-
 
         contentPanel.add(btnsPanel);
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

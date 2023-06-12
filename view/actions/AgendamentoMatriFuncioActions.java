@@ -1,12 +1,17 @@
 package view.actions;
+
 import model.Funcionario;
 import persistence.FuncionarioDAO;
 import view.Mensagem;
 
 import javax.swing.*;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
+import static view.ViewUtils.restringirParaInteiro;
 
 public class AgendamentoMatriFuncioActions implements FocusListener {
         private final JTextField matriFuncioField;
@@ -17,6 +22,7 @@ public class AgendamentoMatriFuncioActions implements FocusListener {
 
         @Override
         public void focusGained(FocusEvent e) {
+            matriFuncioField.setText(matriFuncioField.getText().replaceAll("[^\\d]", ""));
             return;
         }
 
@@ -29,6 +35,11 @@ public class AgendamentoMatriFuncioActions implements FocusListener {
                     matriFuncioField.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
                 }else{
                     matriFuncioField.setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                    PlainDocument pd = (PlainDocument)matriFuncioField.getDocument();
+                    pd.setDocumentFilter(null);
+                    matriFuncioField.setDocument(pd);
+                    matriFuncioField.setText(matriculaInserida.concat(" - ").concat(funcionario.getNome()));
+                    restringirParaInteiro(matriFuncioField);
                 }
                 return;
             }

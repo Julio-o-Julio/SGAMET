@@ -4,6 +4,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import model.AgendamentoVisita;
 import model.Funcionario;
 import view.Mensagem;
 
@@ -185,9 +186,10 @@ public class FuncionarioDAO {
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM Funcionario WHERE nroMatricula = ?");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM agendamentovisita WHERE codFunc = ? AND situacao = ?");
 			
 			prepSt.setInt(1, nroMatricula);
+			prepSt.setString(2, AgendamentoVisita.SITUACAO.PENDENTE);
 			
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {

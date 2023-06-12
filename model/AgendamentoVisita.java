@@ -10,7 +10,13 @@ public class AgendamentoVisita {
 
     private Chamado chamado;
     private Funcionario funcionario;
+    public final static class SITUACAO {
+        public final static String PENDENTE = "Pendente";
+        public final static String EM_ATENDIMENTO = "Em atendimento";
+        public final static String REALIZADA = "Realizada";
+        public final static String CANCELADA = "Cancelada";
 
+    }
     public AgendamentoVisita(LocalDateTime horario, String nomeReceptor, String telefoneReceptor, String situacao, Chamado chamado, Funcionario funcionario) {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
@@ -24,7 +30,7 @@ public class AgendamentoVisita {
         this.horario = horario;
         this.nomeReceptor = nomeReceptor;
         this.telefoneReceptor = telefoneReceptor;
-        this.situacao = "Pendente";
+        this.situacao = SITUACAO.PENDENTE;
         this.funcionario = funcionario;
         this.chamado = chamado;
     }

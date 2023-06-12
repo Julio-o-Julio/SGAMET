@@ -28,7 +28,6 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             JTextField matriculaFuncionarioField,
             JFormattedTextField telefoneField,
             JFormattedTextField horarioField,
-            JComboBox<String> situacao,
             JButton btnAgendar,
             JButton btnAtualizar
     ) {
@@ -76,7 +75,7 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             }
             Chamado chamado = AgendamentoController.buscarChamado(codChamado);
 
-            int matriculaFuncionario = Integer.parseInt(matriculaFuncionarioField.getText());
+            int matriculaFuncionario = Integer.parseInt(matriculaFuncionarioField.getText().replaceAll("[^\\d]",""));
             if(!AgendamentoController.existeFuncionario(matriculaFuncionario)){
                 Mensagem.showError("Nenhum funcionário pôde ser encontrado a partir da matrícula informada");
                 return;
@@ -85,7 +84,14 @@ public class AgendamentoViewCRUDactions implements ActionListener {
             String nomeRes = nomeField.getText();
             String telefoneRes = telefoneField.getText();
             LocalDateTime horario = HorarioValidador.getValor(horarioField);
-            AgendamentoController.registrarAgendamento(chamado, horario, funcionario, nomeRes, telefoneRes); 
+            if(AgendamentoController.consultaDisponibilidadeHorarios(funcionario.getNroMatricula(), horario)){
+                AgendamentoController.registrarAgendamento(chamado, horario, funcionario, nomeRes, telefoneRes);
+            }else{
+                Mensagem.showError(String.format(
+                        "Horário indisponível para o funcionário %s (Mat. %d)",
+                        funcionario.getNome(), funcionario.getNroMatricula()
+                ));
+            }
         }
         else if(e.getSource().equals(btnAtualizar)){
             System.out.println("Atualizado!!");
