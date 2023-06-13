@@ -25,13 +25,14 @@ public class AgendamentoVisitaDAO {
     private Funcionario funcionario;
 	
 create table if not exists AgendamentoVisita (
+	id INT(11) AUTO_INCREMENT,
 	codChamado INTEGER,
 	nomere VARCHAR(255),
     telefonere VARCHAR(225),
     situacao VARCHAR(225),
     codfunc INTEGER,
     horaAgendamento TIMESTAMP,
-    PRIMARY KEY (codchamado, horaagendamento)
+    PRIMARY KEY (id)
 ); 
 	 */
 	
@@ -40,13 +41,14 @@ create table if not exists AgendamentoVisita (
 		try {
 			conexaoPadrao = new Conexao().getConexao();
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists AgendamentoVisita ("
-            		+ "	codChamado INTEGER,"
+            		+ " id INT(11) AUTO_INCREMENT,"
+					+ "	codChamado INTEGER,"
             		+ "	nomere VARCHAR(255),"
             		+ " telefonere VARCHAR(225),"
             		+ " situacao VARCHAR(225),"
             		+ " codfunc INTEGER,"
             		+ " horaAgendamento TIMESTAMP,"
-            		+ " PRIMARY KEY (codchamado, horaagendamento))");
+					+ " PRIMARY KEY (id)");
             statementInsercao.execute();
 		} catch(SQLException e) {
 			Mensagem.showError("Erro ao tentar criar tabela usuario !");
@@ -141,12 +143,9 @@ create table if not exists AgendamentoVisita (
 			while (tuplasRes.next()) {
 				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
 				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
-                arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
-                		tuplasRes.getString("nomere"), 
-                		tuplasRes.getString("telefonere"), 
-                		tuplasRes.getString("situacao"),
-						ch, func
-                		));
+				AgendamentoVisita agend = new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), tuplasRes.getString("nomere"), tuplasRes.getString("telefonere"), tuplasRes.getString("situacao"),ch, func);
+				agend.setId(tuplasRes.getInt("id"));
+                arrayRes.add(agend);
 			}
 		} catch (SQLException e) {
 			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
@@ -173,12 +172,9 @@ create table if not exists AgendamentoVisita (
 			while (tuplasRes.next()) {
 				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
 				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
-				arrayRes.add(new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
-                		tuplasRes.getString("nomere"), 
-                		tuplasRes.getString("telefonere"), 
-                		tuplasRes.getString("situacao"),
-						ch, func
-                		));
+				AgendamentoVisita agend = new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), tuplasRes.getString("nomere"), tuplasRes.getString("telefonere"), tuplasRes.getString("situacao"),ch, func);
+				agend.setId(tuplasRes.getInt("id"));
+                arrayRes.add(agend);
 			}
 		} catch (SQLException e) {
 			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
@@ -191,9 +187,6 @@ create table if not exists AgendamentoVisita (
 		}
 		return arrayRes;
 	}
-
-
-
 
 	private static AgendamentoVisita searchQuery(int codCh, LocalDateTime hor) throws SQLException{
 		AgendamentoVisitaDAO.checkTable();
@@ -213,6 +206,7 @@ create table if not exists AgendamentoVisita (
                 		tuplasRes.getString("situacao"),
 						ch, func
                 		);
+				agend.setId(tuplasRes.getInt("id"));
 			}
 		} catch (SQLException e) {
 			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
@@ -226,6 +220,38 @@ create table if not exists AgendamentoVisita (
 		return agend;
 	}
 	
+
+	private static AgendamentoVisita searchQueryById(int id) throws SQLException{
+		AgendamentoVisitaDAO.checkTable();
+		AgendamentoVisita agend = null;
+		Connection conexaoPadrao = new Conexao().getConexao();
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM AgendamentoVisita WHERE id = ?");
+			prepSt.setInt(1, id);
+			ResultSet tuplasRes = prepSt.executeQuery(); 
+			while (tuplasRes.next()) {
+				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("codChamado"));
+				Funcionario func = FuncionarioDAO.searchQuery(tuplasRes.getInt("codfunc"));
+				agend = new AgendamentoVisita(tuplasRes.getTimestamp("horaAgendamento").toLocalDateTime(), 
+                		tuplasRes.getString("nomere"), 
+                		tuplasRes.getString("telefonere"), 
+                		tuplasRes.getString("situacao"),
+						ch, func
+                		);
+				agend.setId(tuplasRes.getInt("id"));
+			}
+		} catch (SQLException e) {
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
+		} finally {
+			try {
+				conexaoPadrao.close();
+			} catch (SQLException e) {
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
+			}
+		}
+		return agend;
+	}
+
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(int codCh) throws SQLException {
@@ -262,6 +288,16 @@ create table if not exists AgendamentoVisita (
 		AgendamentoVisita agend = null;
 		try {
 			agend = AgendamentoVisitaDAO.searchQuery(numChamado, hora);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return agend;
+	}
+
+	public static AgendamentoVisita pesquisarAgtVisitaPorId(int id){
+		AgendamentoVisita agend = null;
+		try {
+			agend = AgendamentoVisitaDAO.searchQueryById(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

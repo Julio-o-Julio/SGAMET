@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 public class AgendamentoVisita {
+    private int id = -1; // PARA O BANCO DE DADOS
     private LocalDateTime horario;
     private String nomeReceptor;
     private String telefoneReceptor;
@@ -81,5 +82,13 @@ public class AgendamentoVisita {
 
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 }

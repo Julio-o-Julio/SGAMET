@@ -3,6 +3,7 @@ package persistence;
 import java.sql.*;
 import java.util.ArrayList;
 
+import model.AgendamentoVisita;
 import model.Chamado;
 import model.NotaChamado;
 import view.Mensagem;
@@ -17,7 +18,9 @@ public class NotaChamadoDAO {
 	create table if not exists notachamado (
 		numNota INTEGER PRIMARY KEY,
 		numChamado INTEGER,
+		numAgendamento INTEGER,
 	    descricao VARCHAR(255),
+		numAgendamentoVisita INTEGER,
 	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado)
 	); 
 	 */
@@ -29,6 +32,7 @@ public class NotaChamadoDAO {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement("create table if not exists notachamado ("
             		+ "		numNota INTEGER PRIMARY KEY,"
             		+ "		numChamado INTEGER,"
+            		+ "		numAgendamento INTEGER,"
             		+ "	    descricao VARCHAR(255),"
             		+ "	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado))");
             statementInsercao.execute();
@@ -51,11 +55,41 @@ public class NotaChamadoDAO {
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
-                    "INSERT INTO notachamado (numnota, descricao) VALUES (?,?,?)"
+                    "INSERT INTO notachamado (numnota, numchamado, descricao) VALUES (?,?,?)"
             );
 
             statementInsercao.setInt(1, notaChamado.getNumNota());
             statementInsercao.setInt(2, notaChamado.getNumChamado());
+            statementInsercao.setString(3, notaChamado.getDescricao());
+
+            qtdLinhasAfetadas = statementInsercao.executeUpdate();
+
+        } catch (SQLException e) {
+            Mensagem.showError("Erro ao tentar criar usuário!");
+            e.printStackTrace();
+        } finally {
+            try {
+                conexaoPadrao.close();
+            } catch (SQLException e) {
+                Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
+            }
+        }
+
+        return qtdLinhasAfetadas;
+    }
+
+	private static int insertInAgendamento(NotaChamado notaChamado) throws SQLException { /* ---------------------------------- */
+    	NotaChamadoDAO.checkTable();
+        int qtdLinhasAfetadas = 0;
+        Connection conexaoPadrao = new Conexao().getConexao();
+        try {
+            PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
+                    "INSERT INTO notachamado (numnota, numchamado, numagendamento, descricao) VALUES (?,?,?,?)"
+            );
+
+            statementInsercao.setInt(1, notaChamado.getNumNota());
+            statementInsercao.setInt(2, notaChamado.getNumChamado());
+            statementInsercao.setInt(3, notaChamado.getAgend().getId());
             statementInsercao.setString(3, notaChamado.getDescricao());
 
             qtdLinhasAfetadas = statementInsercao.executeUpdate();
@@ -158,6 +192,35 @@ public class NotaChamadoDAO {
 		}
 		return res;
 	}
+
+
+	public static NotaChamado searchQueryByAgend(int numAgendamento) throws SQLException{ /**************************************/
+		NotaChamadoDAO.checkTable();
+		NotaChamado res = null;
+		Connection conexaoPadrao = new Conexao().getConexao();
+		try {
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT * FROM notachamado WHERE numAgendamento = ?");
+			prepSt.setInt(1, numAgendamento); 
+			ResultSet tuplasRes = prepSt.executeQuery(); 
+			while (tuplasRes.next()) {
+				Chamado ch = ChamadoDAO.searchQuery(tuplasRes.getInt("numchamado"));
+				AgendamentoVisita agend = AgendamentoVisitaDAO.pesquisarAgtVisitaPorId(tuplasRes.getInt("numagendamento"));
+                res = new NotaChamado(ch,
+                							tuplasRes.getInt("numnota"),
+                                            tuplasRes.getString("descricao"),
+											agend);
+			}
+		} catch (SQLException e) {
+			Mensagem.showError("Ocorreu um erro na execução da query de consulta:\n" + e.getMessage());
+		} finally {
+			try {
+				conexaoPadrao.close();
+			} catch (SQLException e) {
+				Mensagem.showError("Ocorreu uma exceção ao fechar a conexão:\n" + e.getMessage());
+			}
+		}
+		return res;
+	}
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(int numNota) throws SQLException {
@@ -190,6 +253,17 @@ public class NotaChamadoDAO {
 		}
 		return nota;
 	}
+
+	public static NotaChamado pesquisarNtChamadoPorAgend(int idAgend){
+		NotaChamado nota = null;
+		try {
+			nota = NotaChamadoDAO.searchQueryByAgend(idAgend);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nota;
+	}
+
 	public static ArrayList<NotaChamado> pesquisarNtChamado(){
 		ArrayList<NotaChamado> notas = null;
 		try {
@@ -206,6 +280,18 @@ public class NotaChamadoDAO {
 				NotaChamadoDAO.update(nota);
 			} else {
 				NotaChamadoDAO.insert(nota);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+	public static void inserirNtChamadoAgend(NotaChamado nota){
+		try {
+			if(NotaChamadoDAO.searchQueryByAgend(nota.getAgend().getId()) != null){
+				NotaChamadoDAO.update(nota);
+			} else {
+				NotaChamadoDAO.insertInAgendamento(nota);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
