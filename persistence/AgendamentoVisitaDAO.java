@@ -48,7 +48,7 @@ create table if not exists AgendamentoVisita (
             		+ " situacao VARCHAR(225),"
             		+ " codfunc INTEGER,"
             		+ " horaAgendamento TIMESTAMP,"
-					+ " PRIMARY KEY (id)");
+					+ " PRIMARY KEY (id))");
             statementInsercao.execute();
 		} catch(SQLException e) {
 			Mensagem.showError("Erro ao tentar criar tabela usuario !");
@@ -321,8 +321,8 @@ create table if not exists AgendamentoVisita (
 
 	public static void main(String[] args) {
 		//AgendamentoVisita agend = new AgendamentoVisita(LocalDateTime.now(), "gerso", "255", "top", new Chamado(4, "oi", "oi2", "oi3"), new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
-		
 
+		checkTable();
 		//FuncionarioDAO.inserirFuncionario(new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
 		//ChamadoDAO.inserirChamado(new Chamado(4, "oi", "oi2", "oi3"));
 
