@@ -11,10 +11,15 @@ public class NotaChamado {
         this.numNota = numNota;
         this.descricao = descricao;
     }
-
     public NotaChamado(Chamado chamado, int numNota, String descricao, AgendamentoVisita agend) {
         this.chamado = chamado;
         this.numNota = numNota;
+        this.descricao = descricao;
+        this.agend = agend;
+    }
+
+    public NotaChamado(Chamado chamado,  String descricao, AgendamentoVisita agend) {
+        this.chamado = chamado;
         this.descricao = descricao;
         this.agend = agend;
     }
@@ -35,10 +40,6 @@ public class NotaChamado {
         return numNota;
     }
 
-    public void setNumNota(int numNota) {
-        this.numNota = numNota;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -49,10 +50,6 @@ public class NotaChamado {
 
     public AgendamentoVisita getAgend(){
         return this.agend;
-    }
-
-    public void setAgend(AgendamentoVisita agend){
-        this.agend = agend;
     }
 
 }

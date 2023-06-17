@@ -39,7 +39,7 @@ public class FuncionarioDAO {
 	
 	2018-09-01 09:01:15
 	 */
-	private static void checkTable() {
+	public static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
@@ -61,7 +61,6 @@ public class FuncionarioDAO {
 	
 	
     private static int insert(Funcionario funcionario) throws SQLException {
-    	FuncionarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -115,7 +114,6 @@ public class FuncionarioDAO {
 
 
     private static void update(Funcionario funcionario) throws SQLException {
-    	FuncionarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -151,7 +149,6 @@ public class FuncionarioDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Funcionario> selectAll() throws SQLException{
-    	FuncionarioDAO.checkTable();
 		ArrayList<Funcionario> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -182,7 +179,6 @@ public class FuncionarioDAO {
 	}
 
     private static ArrayList<LocalDateTime> arrayDeHorarios(int nroMatricula) throws SQLException{
-    	FuncionarioDAO.checkTable();
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -209,7 +205,6 @@ public class FuncionarioDAO {
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Funcionario searchQuery(int nroMatricula) throws SQLException{
-		FuncionarioDAO.checkTable();
 		Funcionario res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -242,7 +237,6 @@ public class FuncionarioDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(int nroMatricula) throws SQLException {
-		FuncionarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

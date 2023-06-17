@@ -34,7 +34,7 @@ create table if not exists Filial (
 ); 
 	 */
 	
-	private static void checkTable() {
+	public static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
@@ -62,7 +62,6 @@ create table if not exists Filial (
 	}
 
     private static int insert(Filial filial) throws SQLException {
-    	FilialDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -97,7 +96,6 @@ create table if not exists Filial (
 
 
     private static void update(Filial filial) throws SQLException {
-    	FilialDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -134,7 +132,6 @@ create table if not exists Filial (
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Filial> selectAll() throws SQLException{
-    	FilialDAO.checkTable();
 		ArrayList<Filial> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -164,7 +161,6 @@ create table if not exists Filial (
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Filial searchQuery(int numIdentificacao) throws SQLException{
-		FilialDAO.checkTable();
 		Filial res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -195,7 +191,6 @@ create table if not exists Filial (
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(int numIdentificacao) throws SQLException {
-		FilialDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

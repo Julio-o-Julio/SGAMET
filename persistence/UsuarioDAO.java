@@ -23,7 +23,7 @@ public class UsuarioDAO {
 	    senha VARCHAR(20)
 	); 
 	 */
-	private static void checkTable() {
+	public static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
@@ -46,7 +46,6 @@ public class UsuarioDAO {
 	}
 	
     private static int insert(Usuario usuario) throws SQLException {
-    	UsuarioDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -76,7 +75,6 @@ public class UsuarioDAO {
 
 
     private static void update(Usuario usuario) throws SQLException {
-    	UsuarioDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -108,7 +106,6 @@ public class UsuarioDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Usuario> selectAll() throws SQLException{
-    	UsuarioDAO.checkTable();
 		ArrayList<Usuario> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -133,7 +130,6 @@ public class UsuarioDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Usuario searchQuery(String nomeUsuario) throws SQLException{
-		UsuarioDAO.checkTable();
 		Usuario res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -159,7 +155,6 @@ public class UsuarioDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(String nomeUsuario) throws SQLException {
-		UsuarioDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

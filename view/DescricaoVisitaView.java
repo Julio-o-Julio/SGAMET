@@ -1,14 +1,13 @@
 package view;
 
 import model.AgendamentoVisita;
-import persistence.AgendamentoVisitaDAO;
-import view.ViewUtils;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+
+import static controladora.RegistrarVisitaController.finalizarVisita;
 
 public class DescricaoVisitaView extends JFrame {
     final JButton btnOrigem;
@@ -27,9 +26,7 @@ public class DescricaoVisitaView extends JFrame {
         JButton btnRegistrar = new JButton("Registrar");
 
 
-        btnCancelar.addActionListener(e -> {
-            this.dispose();
-        });
+        btnCancelar.addActionListener(e -> this.dispose());
 
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
 
@@ -66,16 +63,14 @@ public class DescricaoVisitaView extends JFrame {
         this.add(btnsPanel);
 
         btnRegistrar.addActionListener(e -> {
-            String descChamado = descField.getText();
-            if(descChamado.length()>0){
-                this.agdtoOrigem.setSituacao(AgendamentoVisita.SITUACAO.REALIZADA);
-                if (AgendamentoVisitaDAO.inserirAgendamentoChamado(this.agdtoOrigem)) {
+            String descVisita = descField.getText();
+            if(descVisita.length()>0){
+                if (finalizarVisita(this.agdtoOrigem, descVisita)) {
                     this.btnOrigem.setVisible(false);
                     this.panelOrigem.remove(this.btnOrigem);
                     this.panelOrigem.setBackground(ViewUtils.COR_REALIZADA);
                     this.panelOrigem.revalidate();
                     this.panelOrigem.repaint();
-                    //TODO: Append nota de chamado com descricao ao chamado!!
 
                     Mensagem.showSucces("Conclusão de visita registrada com sucesso.");
                     this.dispose();

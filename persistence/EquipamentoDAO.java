@@ -24,7 +24,7 @@ create table if not exists Equipamento (
 ); 
 	 */
 
-	private static void checkTable() {
+	public static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
@@ -33,7 +33,7 @@ create table if not exists Equipamento (
             		+ "	descricao VARCHAR(255),"
             		+ " marca VARCHAR(255),"
             		+ " modelo VARCHAR(255),"
-            		+ " cpfcnpjcli = VARCHAR(255),"
+            		+ " cpfcnpjcli VARCHAR(255),"
             		+ " FOREIGN KEY (cpfcnpjcli) REFERENCES cliente(cpfcnpj))");
             statementInsercao.execute();
 		} catch(SQLException e) {
@@ -50,7 +50,6 @@ create table if not exists Equipamento (
 	}
 	
     private static int insert(Equipamento Equipamento) throws SQLException {
-    	EquipamentoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -82,7 +81,6 @@ create table if not exists Equipamento (
 
 
     private static void update(Equipamento Equipamento) throws SQLException {
-    	EquipamentoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -116,7 +114,6 @@ create table if not exists Equipamento (
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Equipamento> selectAll() throws SQLException{
-    	EquipamentoDAO.checkTable();
 		ArrayList<Equipamento> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -145,7 +142,6 @@ create table if not exists Equipamento (
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Equipamento searchQuery(String numserie) throws SQLException{
-		EquipamentoDAO.checkTable();
 		Equipamento res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -175,7 +171,6 @@ create table if not exists Equipamento (
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(String numSerie) throws SQLException {
-		EquipamentoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {

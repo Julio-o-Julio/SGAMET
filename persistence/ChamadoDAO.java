@@ -21,7 +21,7 @@ public class ChamadoDAO {
 	); 
 	 */
 
-	 private static void checkTable() {
+	 public static void checkTable() {
 		Connection conexaoPadrao = null;
 		try {
 			conexaoPadrao = new Conexao().getConexao();
@@ -44,7 +44,6 @@ public class ChamadoDAO {
 	
 
     private static int insert(Chamado chamado) throws SQLException {
-		ChamadoDAO.checkTable();
         int qtdLinhasAfetadas = 0;
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
@@ -75,7 +74,6 @@ public class ChamadoDAO {
 
 
     private static void update(Chamado chamado) throws SQLException {
-		ChamadoDAO.checkTable();
         Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
@@ -108,7 +106,6 @@ public class ChamadoDAO {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<Chamado> selectAll() throws SQLException{
-		ChamadoDAO.checkTable();
 		ArrayList<Chamado> arrayRes = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao(); 
 		try {
@@ -134,7 +131,6 @@ public class ChamadoDAO {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public static Chamado searchQuery(int codChamado) throws SQLException{
-		ChamadoDAO.checkTable();
 		Chamado res = null;
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
@@ -161,7 +157,6 @@ public class ChamadoDAO {
 	
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 	private static boolean delete(int codChamado) throws SQLException {
-		ChamadoDAO.checkTable();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		boolean ret = false;
 		try {
