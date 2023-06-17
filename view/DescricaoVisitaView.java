@@ -22,7 +22,7 @@ public class DescricaoVisitaView extends JFrame {
 
         this.setPreferredSize(tamanho);
         this.setLayout(new FlowLayout());
-
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         JButton btnCancelar = new JButton("Cancelar");
         JButton btnRegistrar = new JButton("Registrar");
 

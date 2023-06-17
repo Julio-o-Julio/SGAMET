@@ -56,6 +56,7 @@ public class MainView extends JFrame {
     public MainView(String title, Dimension size){
         this.setTitle(title);
         this.setPreferredSize(size);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         JTabbedPane mainPane = new JTabbedPane();
         ManagerPane welcomeView = new ManagerPane(mainPane);
@@ -66,5 +67,6 @@ public class MainView extends JFrame {
         this.pack();
         this.add(mainPane);
         this.setVisible(true);
+
     }
 }
