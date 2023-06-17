@@ -13,4 +13,12 @@ public class RegistrarVisitaController{
         else
             throw new Exception(String.format("Chamado nao encontrado a partir do codigo %d", codChamado));
     }
+    public static boolean cancelarAgendamento(AgendamentoVisita agendamento){
+        agendamento.setSituacao(AgendamentoVisita.SITUACAO.CANCELADA);
+        return AgendamentoVisitaDAO.inserirAgendamentoChamado(agendamento);
+    }
+    public static boolean atenderAgendamento(AgendamentoVisita agendamento){
+        agendamento.setSituacao(AgendamentoVisita.SITUACAO.EM_ATENDIMENTO);
+        return AgendamentoVisitaDAO.inserirAgendamentoChamado(agendamento);
+    }
 }

@@ -1,13 +1,15 @@
 package view;
 
 import model.AgendamentoVisita;
-import persistence.AgendamentoVisitaDAO;
 
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static controladora.RegistrarVisitaController.cancelarAgendamento;
+import static controladora.RegistrarVisitaController.atenderAgendamento;
 
 public class ViewUtils {
     public static final Color COR_PENDENTE = Color.lightGray;
@@ -118,8 +120,7 @@ public class ViewUtils {
                     }
                     if(limiteSuperior.isBefore(LocalDateTime.now())){
                         Mensagem.showError("A visita selecionada já não pode ser realizada.\nPor favor, realize novo agendamento.");
-                        agdto.setSituacao(AgendamentoVisita.SITUACAO.CANCELADA);
-                        if(AgendamentoVisitaDAO.inserirAgendamentoChamado(agdto)){
+                        if(cancelarAgendamento(agdto)){
                             actionBtn.setVisible(false);
                             agdtoItemPane.remove(actionBtn);
                             agdtoItemPane.setBackground(COR_CANCELADA);
@@ -131,8 +132,7 @@ public class ViewUtils {
                         }
                         return;
                     }
-                    agdto.setSituacao(AgendamentoVisita.SITUACAO.EM_ATENDIMENTO);
-                    if(AgendamentoVisitaDAO.inserirAgendamentoChamado(agdto)){
+                    if(atenderAgendamento(agdto)){
                         actionBtn.setText("Finalizar");
                         agdtoItemPane.setBackground(COR_EM_ATENDIMENTO);
                         itemContainer.revalidate();
