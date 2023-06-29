@@ -111,7 +111,7 @@ public class NotaChamadoDAO {
     	Connection conexaoPadrao = new Conexao().getConexao();
         try {
             PreparedStatement statementInsercao = conexaoPadrao.prepareStatement(
-                    "UPDATE notaChamado SET numNota = ?, numChamado = ?, descricao = ?" +
+                    "UPDATE notachamado SET numNota = ?, numChamado = ?, descricao = ?" +
                     "WHERE numNota = ?"
             );
 
