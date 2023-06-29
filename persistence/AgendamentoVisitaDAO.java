@@ -313,14 +313,14 @@ create table if not exists AgendamentoVisita (
 
 
 	public static void main(String[] args) {
-		//AgendamentoVisita agend = new AgendamentoVisita(LocalDateTime.now(), "gerso", "255", "top", new Chamado(4, "oi", "oi2", "oi3"), new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
-
-		//FuncionarioDAO.inserirFuncionario(new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
-		//ChamadoDAO.inserirChamado(new Chamado(4, "oi", "oi2", "oi3"));
-
-		System.out.println(ChamadoDAO.pesquisarChamado(4));
-
-		//AgendamentoVisitaDAO.inserirChamado(agend);
+//		AgendamentoVisita agend = new AgendamentoVisita(LocalDateTime.now(), "gerso", "255", "Pendente", new Chamado(4, "oi", "oi2", "oi3"), new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
+//
+//		FuncionarioDAO.inserirFuncionario(new Funcionario(9, "nome", "carg", "pais", "estad", "cidad", "telef", new ArrayList<LocalDateTime>()));
+//		ChamadoDAO.inserirChamado(new Chamado(4, "oi", "oi2", "oi3"));
+//
+//		System.out.println(ChamadoDAO.pesquisarChamado(4));
+//
+//		AgendamentoVisitaDAO.inserirAgendamentoChamado(agend);
 	}
 
 
