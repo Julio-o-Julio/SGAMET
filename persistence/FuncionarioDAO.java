@@ -182,7 +182,7 @@ public class FuncionarioDAO {
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM agendamentovisita WHERE codFunc = ? AND situacao = ?");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM AgendamentoVisita WHERE codFunc = ? AND situacao = ?");
 			
 			prepSt.setInt(1, nroMatricula);
 			prepSt.setString(2, AgendamentoVisita.SITUACAO.PENDENTE);
