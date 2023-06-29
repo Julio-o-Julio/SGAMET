@@ -34,7 +34,7 @@ create table if not exists Equipamento (
             		+ " marca VARCHAR(255),"
             		+ " modelo VARCHAR(255),"
             		+ " cpfcnpjcli VARCHAR(255),"
-            		+ " FOREIGN KEY (cpfcnpjcli) REFERENCES cliente(cpfcnpj))");
+            		+ " FOREIGN KEY (cpfcnpjcli) REFERENCES Cliente(cpfcnpj))");
             statementInsercao.execute();
 		} catch(SQLException e) {
             Mensagem.showError("Erro ao tentar criar tabela usuario !");

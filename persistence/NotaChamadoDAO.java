@@ -34,8 +34,8 @@ public class NotaChamadoDAO {
             		+ "		numChamado INTEGER,"
             		+ "		numAgendamento INTEGER,"
             		+ "	    descricao VARCHAR(255),"
-            		+ "	    FOREIGN KEY (numChamado) REFERENCES chamado(codchamado),"
-					+ "     FOREIGN KEY (numAgendamento) REFERENCES agendamentovisita(id),"
+            		+ "	    FOREIGN KEY (numChamado) REFERENCES Chamado(codchamado),"
+					+ "     FOREIGN KEY (numAgendamento) REFERENCES AgendamentoVisita(id),"
 					+ "     PRIMARY KEY (numNota))");
             statementInsercao.execute();
 		} catch(SQLException e) {
