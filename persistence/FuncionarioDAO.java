@@ -182,11 +182,13 @@ public class FuncionarioDAO {
     	ArrayList<LocalDateTime> res = new ArrayList<>();
 		Connection conexaoPadrao = new Conexao().getConexao();
 		try {
-			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM AgendamentoVisita WHERE codFunc = ? AND situacao = ?");
+			PreparedStatement prepSt = conexaoPadrao.prepareStatement("SELECT horaagendamento FROM AgendamentoVisita WHERE codFunc = ? AND (situacao = ? OR situacao = ?)");
 			
 			prepSt.setInt(1, nroMatricula);
 			prepSt.setString(2, AgendamentoVisita.SITUACAO.PENDENTE);
-			
+			prepSt.setString(3, AgendamentoVisita.SITUACAO.EM_ATENDIMENTO);
+
+
 			ResultSet tuplasRes = prepSt.executeQuery(); 
 			while (tuplasRes.next()) {
                 res.add(tuplasRes.getTimestamp("horaagendamento").toLocalDateTime());
